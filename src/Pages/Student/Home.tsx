@@ -5,7 +5,6 @@ import CouseSection from "../../Componets/Student/CouseSection";
 import Testimonial from "../../Componets/Student/Testimonial";
 import Footer from "../../Componets/Student/Footer";
 import Wrapper from "../../Componets/ReuseCompo/Wrapper";
-import Login from "./Login";
 
 function Home() {
   return (
