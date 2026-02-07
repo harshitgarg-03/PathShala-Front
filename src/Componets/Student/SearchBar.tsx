@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import search_icon from "../../assets/search_icon.svg";
+import search_icon from "../../Data/search_icon.svg";
 import Button from "../ReuseCompo/Button";
 import { useNavigate } from "react-router-dom";
 function SearchBar() {
@@ -13,30 +13,49 @@ function SearchBar() {
     }
   }
   return (
-    <div className={` px-18 w-screen text-gray-900`}>
-      <form
-        onSubmit={onHandlerFunction}
-        className={`flex justify-between items-center px-4 py-1 rounded-2xl bg-white `}
-      >
-        <div className={`flex gap-2`}>
-          <img src={search_icon} alt="" className={`p-4`} />
-          <input
-            type="text"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setInput(e.target.value)
-            }
-            value={input}
-            className={`w-4xl text-lg focus:outline-none hover:bg-amber-50`}
-            placeholder="Search for courses ..."
-          />
-        </div>
-        <Button
-          type="submit"
-          title="Search"
-          classname="bg-blue-700 w-30 h-10  text-white rounded-xl"
-        />
-      </form>
+    <div className="text-gray-900 px-4 sm:px-8 md:px-12">
+
+  <form
+    onSubmit={onHandlerFunction}
+    className="flex items-center justify-between
+    bg-white rounded-full shadow-md
+    px-3 sm:px-4 md:px-6
+    py-1 sm:py-2"
+  >
+    <div className="flex items-center gap-2 sm:gap-3 w-full">
+
+      <img
+        src={search_icon}
+        alt=""
+        className="p-2 sm:p-3"
+      />
+
+      <input
+        type="text"
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setInput(e.target.value)
+        }
+        value={input}
+        className="flex-1 text-sm sm:text-base md:text-lg
+        focus:outline-none bg-transparent
+        placeholder-gray-400"
+        placeholder="Search for courses..."
+      />
     </div>
+    <Button
+      type="submit"
+      title="Search"
+      classname="bg-blue-700 hover:bg-blue-800
+      w-24 sm:w-28 md:w-32
+      h-9 sm:h-10 md:h-11
+      text-white rounded-full
+      px-4 transition"
+    />
+
+  </form>
+
+</div>
+
   );
 }
 
