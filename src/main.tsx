@@ -6,8 +6,8 @@ import Wrapper from "./Componets/ReuseCompo/Wrapper.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
-    <Wrapper>
+    
       <App />
-    </Wrapper>
+   
   </BrowserRouter>,
 );
