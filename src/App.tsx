@@ -11,15 +11,18 @@ import MyCourses from "./Pages/Educator/MyCourses";
 import StudentEnrolled from "./Pages/Educator/StudentEnrolled";
 import AddCourse from "./Pages/Educator/AddCourse";
 import NavBar from "./Componets/Student/NavBar";
+import Login from "./Pages/Student/Login";
+import SignUp from "./Pages/Student/SignUp";
 
 function App() {
-
-  const isEducatorPage = useMatch('/Educator/*')
+  const isEducatorPage = useMatch("/Educator/*");
   return (
     <>
-    {!isEducatorPage && <NavBar/>}
+      {!isEducatorPage && <NavBar />}
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/Course-List" element={<CoursesList />} />
         <Route path="/Course-List/:input" element={<CoursesList />} />
         <Route path="/Course-Details/:id" element={<CourseDetails />} />
