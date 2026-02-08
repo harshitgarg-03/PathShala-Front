@@ -27,7 +27,7 @@ function Footer() {
           <img
             src={FooterImg}
             alt="Footer Image"
-            className="h-36 sm:h-40 object-contain"
+            className="h-20  object-contain"
           />
 
           <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
