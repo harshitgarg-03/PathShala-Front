@@ -2,9 +2,25 @@ import { useNavigate } from "react-router-dom";
 import Wrapper from "../../Componets/ReuseCompo/Wrapper";
 import Fotter from "../../Data/FooterLogo.png";
 import { User, Mail, Lock } from "lucide-react";
+import { useState } from "react";
+import { useAuth } from "../../ZustandStore/AuthStore";
 
 function SignUp() {
   const navigate = useNavigate();
+  const [name, setname] = useState("");
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+  const Register = useAuth((s) => s.Register);
+  const isLoading = useAuth((s) => s.isLoading);
+
+  const handlesignup = () => {
+    Register({ name, email, password });
+  };
+
+  const handleGoogle = useAuth(s => s.handleGoogleLogin);
+  const handleGoogleLogin = () => {
+    handleGoogle()
+  }
   return (
     <Wrapper>
       <div
@@ -51,6 +67,8 @@ function SignUp() {
           focus:outline-none
           focus:ring-2 focus:ring-blue-500
           "
+              value={name}
+              onChange={(e) => setname(e.target.value)}
             />
           </div>
 
@@ -69,6 +87,8 @@ function SignUp() {
           focus:outline-none
           focus:ring-2 focus:ring-blue-500
           "
+              value={email}
+              onChange={(e) => setemail(e.target.value)}
             />
           </div>
 
@@ -87,24 +107,52 @@ function SignUp() {
           focus:outline-none
           focus:ring-2 focus:ring-blue-500
           "
+              value={password}
+              onChange={(e) => setpassword(e.target.value)}
             />
           </div>
         </div>
 
         <div className="w-full">
           <button
-            className="
-        w-full
-        bg-blue-700 hover:bg-blue-800
-        text-white
-        py-2.5
-        rounded-lg
-        font-medium
-        transition
-        cursor-pointer
-        "
+            disabled={isLoading}
+            onClick={handlesignup}
+            className={`
+    w-full
+    flex items-center justify-center gap-2
+
+    bg-green-400 hover:bg-white hover:text-green-400
+    disabled:bg-green-300 disabled:cursor-not-allowed
+
+    text-white
+    py-2.5
+    rounded-lg
+    font-medium
+
+    transition-all duration-300
+
+    ${isLoading ? "opacity-80" : ""}
+  `}
           >
-            Sign Up
+            {isLoading ? (
+              <>
+                {/* Spinner */}
+                <span
+                  className="
+        h-4 w-4
+        border-2 border-white
+        border-t-transparent
+        rounded-full
+        animate-spin
+        "
+                />
+
+                {/* Animated Text */}
+                <span className="animate-pulse">Signing Up...</span>
+              </>
+            ) : (
+              "Sign Up"
+            )}
           </button>
         </div>
 
@@ -142,6 +190,7 @@ function SignUp() {
     hover:bg-gray-50
     transition
     "
+    onClick={handleGoogleLogin}
           >
             {/* Google Icon (Optional) */}
             <img
