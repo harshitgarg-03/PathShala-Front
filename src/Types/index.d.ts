@@ -19,12 +19,43 @@ interface StoreProp {
   CourseRatingFunction : (courses : dummyCoursesProp) => number
 }
 
+interface AuthSoreProp {
+  isAuthenticate : boolean;
+  isLoading : boolean;
+  isBooting : boolean;
+  error : null | string;
+  user : {
+    name: string;
+    id?: string;
+    email: string;
+    role? : 'student' | 'instructor' | 'admin';
+    bio?: string;
+  } | null;
+
+  Register : (data : user) => void;
+  Login : (data : user) => void;
+  handleGoogleLogin : () => void;
+}
+
+interface LoadingProp {
+  classname? : string;
+}
+
 interface smallCardProp {
   title: string;
   icon: string;
 }
 interface CourseCardProp {
   course: dummyCoursesProp;
+}
+
+interface SearchBarProp {
+  inputSearch : string | undefined;
+}
+
+interface CourseDetailProp {
+  course: dummyCoursesProp;
+
 }
 interface dummyCoursesProp {
   _id: string;
