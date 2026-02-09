@@ -5,12 +5,25 @@ import { api } from "../lib/api";
 
 export const useAuth = create<AuthSoreProp>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       isAuthenticate: false,
       isLoading: false,
       user: null,
       isBooting: false,
       error: null,
+
+      CurrentUser: async () => {
+        try {
+          const res = await api.get("/get/me");
+          const token = localStorage.getItem("token");
+          if (token) {
+            set({ isAuthenticate: true });
+          }
+          set({ user: res.data });
+        } catch (error: any) {
+          set({ error: error.data, isAuthenticate: false });
+        }
+      },
 
       Register: async (data) => {
         set({ isLoading: true, error: null });
@@ -36,15 +49,32 @@ export const useAuth = create<AuthSoreProp>()(
             email,
             password,
           });
-          set({ user: res.data, isAuthenticate: true, isLoading: false });
+          set({ user: res.data, isLoading: false });
+        } catch (error: any) {
+          set({ error: error.data, isLoading: false });
+        }
+      },
+
+      Logout: async () => {
+        set({ isLoading: true, error: null });
+        try {
+          const res = await api.post("/logout");
+          set({ isLoading: false, error: null });
+
+          
         } catch (error: any) {
           set({ error: error.data, isLoading: false });
         }
       },
 
       handleGoogleLogin: async () => {
-        const res = await api.get("/google");
-        window.location.href = res.data.url;
+        try {
+          const res = await api.get("/google");
+          window.location.href = res.data.url;
+          
+        } catch (error: any) {
+          set({ error: error.data });
+        }
       },
     }),
     {
