@@ -13,9 +13,15 @@ import AddCourse from "./Pages/Educator/AddCourse";
 import NavBar from "./Componets/Student/NavBar";
 import Login from "./Pages/Student/Login";
 import SignUp from "./Pages/Student/SignUp";
+import { useAuth } from "./ZustandStore/AuthStore";
+import { useEffect } from "react";
 
 function App() {
   const isEducatorPage = useMatch("/Educator/*");
+  const getuser = useAuth((s) => s.CurrentUser);
+  useEffect(() => {
+    getuser();
+  }, []);
   return (
     <>
       {!isEducatorPage && <NavBar />}
@@ -25,7 +31,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/Course-List" element={<CoursesList />} />
         <Route path="/Course-List/:input" element={<CoursesList />} />
-        <Route path="/Course-Details/:id" element={<CourseDetails />} />
+        <Route path="/Course-Details/:id" element={<CourseDetails  />} />
         <Route path="/My-Enroll" element={<MyEnrollment />} />
         <Route path="/Player/:courseId" element={<Player />} />
         <Route path="/Loading/:path" element={<Loading />} />
