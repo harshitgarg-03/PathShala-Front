@@ -17,6 +17,8 @@ interface StoreProp {
   FetchAllCourses: () => void;
   // navigate : NavigateFunction
   CourseRatingFunction : (courses : dummyCoursesProp) => number
+  CourseDetailFunc : (id : Readonly<Params<string>>) => void;
+  SpecificCourse: dummyCoursesProp | null
 }
 
 interface AuthSoreProp {
@@ -35,6 +37,8 @@ interface AuthSoreProp {
   Register : (data : user) => void;
   Login : (data : user) => void;
   handleGoogleLogin : () => void;
+  CurrentUser: () => void;
+  Logout: () => void;
 }
 
 interface LoadingProp {
