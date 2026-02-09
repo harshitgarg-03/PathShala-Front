@@ -15,11 +15,13 @@ function SignUp() {
 
   const handlesignup = () => {
     Register({ name, email, password });
+    navigate("/login")
   };
 
   const handleGoogle = useAuth(s => s.handleGoogleLogin);
-  const handleGoogleLogin = () => {
-    handleGoogle()
+  const handleGoogleLogin = async () => {
+   await handleGoogle()
+    navigate("/")
   }
   return (
     <Wrapper>

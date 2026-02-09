@@ -5,10 +5,15 @@ import CouseSection from "../../Componets/Student/CouseSection";
 import Testimonial from "../../Componets/Student/Testimonial";
 import Footer from "../../Componets/Student/Footer";
 import Wrapper from "../../Componets/ReuseCompo/Wrapper";
+import { useAuth } from "../../ZustandStore/AuthStore";
+import { useEffect } from "react";
 
 function Home() {
+  
+  
   return (
     <div className="mx-auto">
+
       <Wrapper>
         <Hero />
         <SearchBar />

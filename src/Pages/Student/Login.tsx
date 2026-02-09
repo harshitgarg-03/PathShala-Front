@@ -1,10 +1,34 @@
 import { useNavigate } from "react-router-dom";
 import Wrapper from "../../Componets/ReuseCompo/Wrapper";
 import Fotter from "../../Data/FooterLogo.png";
-import { User, Mail, Lock } from "lucide-react";
+import { Mail, Lock } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useAuth } from "../../ZustandStore/AuthStore";
 
 function Login() {
   const navigate = useNavigate();
+
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+  const isLoading = useAuth((s) => s.isLoading);
+  const login = useAuth((s) => s.Login);
+  const handleLogin = () => {
+    login({ email, password });
+    navigate("/");
+  };
+
+  const handleGoogle = useAuth((s) => s.handleGoogleLogin);
+  const handleGoogleLogin = () => {
+    handleGoogle();
+    navigate("/");
+    const token = new URLSearchParams(window.location.search).get("token");
+    console.log("login token", token);
+
+    if (token) {
+      localStorage.setItem("token", token);
+    }
+  };
+
   return (
     <Wrapper>
       <div
@@ -31,12 +55,12 @@ function Login() {
           </h2>
 
           <p className="text-sm sm:text-base text-gray-600">
-           
+            Login to continue your learning journey
           </p>
         </div>
 
         <div className="w-full space-y-4">
-          <div className="relative">
+          {/* <div className="relative">
             <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
 
             <input
@@ -52,7 +76,7 @@ function Login() {
           focus:ring-2 focus:ring-blue-500
           "
             />
-          </div>
+          </div> */}
 
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
@@ -69,6 +93,8 @@ function Login() {
           focus:outline-none
           focus:ring-2 focus:ring-blue-500
           "
+              value={email}
+              onChange={(e) => setemail(e.target.value)}
             />
           </div>
 
@@ -87,24 +113,50 @@ function Login() {
           focus:outline-none
           focus:ring-2 focus:ring-blue-500
           "
+              value={password}
+              onChange={(e) => setpassword(e.target.value)}
             />
           </div>
         </div>
 
         <div className="w-full">
           <button
+            disabled={isLoading}
+            onClick={handleLogin}
             className="
-        w-full
-        bg-blue-700 hover:bg-blue-800
-        text-white
-        py-2.5
-        rounded-lg
-        font-medium
-        transition
-        cursor-pointer
-        "
+    w-full
+    flex items-center justify-center gap-2
+
+    bg-blue-700 hover:bg-white hover:text-blue-700
+    disabled:bg-blue-400 disabled:cursor-not-allowed
+
+    text-white
+    py-2.5
+    rounded-lg
+    font-medium
+
+    transition-all duration-300
+  "
           >
-            Sign Up
+            {isLoading ? (
+              <>
+                {/* Spinner */}
+                <span
+                  className="
+        h-4 w-4
+        border-2 border-white
+        border-t-transparent
+        rounded-full
+        animate-spin
+        "
+                />
+
+                {/* Animated Text */}
+                <span className="animate-pulse">Logging In...</span>
+              </>
+            ) : (
+              "Login"
+            )}
           </button>
         </div>
 
@@ -113,10 +165,10 @@ function Login() {
           <p className="text-sm sm:text-base text-gray-600">
             Already have an account?{" "}
             <span
-              onClick={() => navigate("/login")}
-              className="text-blue-700 cursor-pointer font-semibold hover:underline"
+              onClick={() => navigate("/signup")}
+              className="text-green-400 cursor-pointer font-semibold hover:underline"
             >
-              Login
+              Signup
             </span>
           </p>
 
@@ -142,6 +194,7 @@ function Login() {
     hover:bg-gray-50
     transition
     "
+            onClick={handleGoogleLogin}
           >
             {/* Google Icon (Optional) */}
             <img
