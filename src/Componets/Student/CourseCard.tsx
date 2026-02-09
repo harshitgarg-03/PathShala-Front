@@ -1,10 +1,19 @@
 import { assets } from "../../Data/assets.ts";
 import { useStore } from "../../ZustandStore/Store.js";
 import type { CourseCardProp } from "../../Types/index.js";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function CourseCard({ course }: CourseCardProp) {
   const currency = useStore((s) => s.currency);
   const CourseRating = useStore((s) => s.CourseRatingFunction);
+  const navigate = useNavigate();
+  const CourseDetailfunc = useStore((s) => s.CourseDetailFunc);
+  const HandlecourseCard = () => {
+    navigate(`/Course-Details/${course._id}`);
+      CourseDetailfunc(course._id);
+  };
+
   return (
     <div
       className="w-full sm:w-64 md:w-72 lg:w-80
@@ -12,6 +21,7 @@ function CourseCard({ course }: CourseCardProp) {
     rounded-xl overflow-hidden
     bg-white shadow-sm hover:shadow-lg 
     transition"
+      onClick={HandlecourseCard}
     >
       <div className="w-full h-40 sm:h-44 p-2 md:h-48 overflow-hidden">
         <img
@@ -26,12 +36,12 @@ function CourseCard({ course }: CourseCardProp) {
           {course.courseTitle}
         </h1>
 
-        <div className="text-sm text-gray-600 line-clamp-2"
-          dangerouslySetInnerHTML=
-          {{
+        <div
+          className="text-sm text-gray-600 line-clamp-2"
+          dangerouslySetInnerHTML={{
             __html: course.courseDescription,
-          }}>
-        </div>
+          }}
+        ></div>
 
         <div className="flex items-center gap-1 text-sm">
           <p className="font-medium text-gray-700">{CourseRating(course)}</p>
