@@ -12,6 +12,7 @@ export const useAuth = create<AuthSoreProp>()(
       isBooting: false,
       error: null,
 
+      
       CurrentUser: async () => {
         try {
           const res = await api.get("/get/me");
