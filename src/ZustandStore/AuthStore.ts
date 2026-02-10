@@ -59,7 +59,7 @@ export const useAuth = create<AuthSoreProp>()(
         set({ isLoading: true, error: null });
         try {
           const res = await api.post("/logout");
-          set({ isLoading: false, error: null });
+          set({ isLoading: false, error: null, isAuthenticate: false });
 
           
         } catch (error: any) {
@@ -68,10 +68,11 @@ export const useAuth = create<AuthSoreProp>()(
       },
 
       handleGoogleLogin: async () => {
+        set({isAuthenticate : false});
         try {
           const res = await api.get("/google");
           window.location.href = res.data.url;
-          
+          set({isAuthenticate : true})
         } catch (error: any) {
           set({ error: error.data });
         }
