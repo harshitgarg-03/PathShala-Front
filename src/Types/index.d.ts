@@ -11,7 +11,6 @@ interface WrapperProp {
   children: ReactNode;
 }
 
-
 interface StoreProp {
   isLoading : boolean;
   currency: string;
