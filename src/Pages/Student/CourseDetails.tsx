@@ -12,6 +12,7 @@ import YouTube from "react-youtube";
 import croosicon from "../../Data/cross_icon.svg";
 import Loading from "../../Componets/Student/Loading";
 
+
 function CourseDetails() {
   const course = useStore((s) => s.SpecificCourse);
   const [chapterDuration, setChapterDuration] = useState<number>(0);
