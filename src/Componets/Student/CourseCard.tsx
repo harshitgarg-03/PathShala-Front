@@ -8,10 +8,9 @@ function CourseCard({ course }: CourseCardProp) {
   const currency = useStore((s) => s.currency);
   const CourseRating = useStore((s) => s.CourseRatingFunction);
   const navigate = useNavigate();
-  const CourseDetailfunc = useStore((s) => s.CourseDetailFunc);
+  
   const HandlecourseCard = () => {
     navigate(`/Course-Details/${course._id}`);
-      CourseDetailfunc(course._id);
   };
 
   return (
@@ -20,7 +19,7 @@ function CourseCard({ course }: CourseCardProp) {
     border border-blue-200
     rounded-xl overflow-hidden
     bg-white shadow-sm hover:shadow-lg 
-    transition"
+    transition cursor-pointer"
       onClick={HandlecourseCard}
     >
       <div className="w-full h-40 sm:h-44 p-2 md:h-48 overflow-hidden">
