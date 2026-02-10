@@ -12,6 +12,7 @@ interface WrapperProp {
 }
 
 interface StoreProp {
+  isLoading : boolean;
   currency: string;
   courses: dummyCoursesProp[] | null;
   FetchAllCourses: () => void;
