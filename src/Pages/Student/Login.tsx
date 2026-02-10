@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Wrapper from "../../Componets/ReuseCompo/Wrapper";
 import Fotter from "../../Data/FooterLogo.png";
 import { Mail, Lock } from "lucide-react";
@@ -12,17 +12,19 @@ function Login() {
   const [password, setpassword] = useState("");
   const isLoading = useAuth((s) => s.isLoading);
   const login = useAuth((s) => s.Login);
+  const isAuthenticate = useAuth(s => s.isAuthenticate)
   const handleLogin = () => {
     login({ email, password });
-    navigate("/");
+    navigate("/")
   };
 
   const handleGoogle = useAuth((s) => s.handleGoogleLogin);
   const handleGoogleLogin = () => {
     handleGoogle();
-    navigate("/");
-    const token = new URLSearchParams(window.location.search).get("token");
+    
+    const {token} = useParams();
     console.log("login token", token);
+    if(isAuthenticate) navigate("/");
 
     if (token) {
       localStorage.setItem("token", token);
