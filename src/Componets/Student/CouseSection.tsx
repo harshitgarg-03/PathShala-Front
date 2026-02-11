@@ -52,7 +52,7 @@ function CouseSection() {
   gap-6 sm:gap-8
   mt-4"
       >
-           
+            
         {dummycourses
           ? dummycourses
               .slice(0, 4)
