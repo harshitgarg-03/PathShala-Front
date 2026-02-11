@@ -1,20 +1,23 @@
 // import type { dummyCoursesProp } from "../../Types";
 import { Link } from "react-router-dom";
-import type { dummyCoursesProp } from "../../Types";
+import type { course, dummyCoursesProp } from "../../Types";
 import { useStore } from "../../ZustandStore/Store";
 import CourseCard from "./CourseCard";
 import { useEffect } from "react";
+import { CourseStore } from "../../ZustandStore/CourseStore";
 
 function CouseSection() {
-  const Fetchcourses = useStore((s) => s.FetchAllCourses);
-  const dummycourses = useStore((s) => s.courses);
+  const Fetchcourses = CourseStore((s) => s.FetchAllCourse);
+  const dummycourses = CourseStore((s) => s.courses);
 
-  useEffect(() => {
-    Fetchcourses();
-  }, []);
+  if(dummycourses == null){
+    useEffect(() => {
+      Fetchcourses();
+    }, []);
+  }
 
 
-  
+
   return (
     <div className="mt-24 px-4 sm:px-6 lg:px-8">
       {/* Heading */}
@@ -52,7 +55,7 @@ function CouseSection() {
         {dummycourses
           ? dummycourses
               .slice(0, 4)
-              .map((course: dummyCoursesProp, i: number) => (
+              .map((course: course, i: number) => (
                 <CourseCard course={course} key={i} />
               ))
           : null}

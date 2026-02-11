@@ -3,7 +3,7 @@ import type { course } from "../../Types/index.js";
 import { useNavigate } from "react-router-dom";
 import { CourseStore } from "../../ZustandStore/CourseStore.ts";
 
-function CourseCard({ course }: { course: course }) {
+function CourseCard( { course }: { course: course } ) {
   const currency = CourseStore((s) => s.currency);
   const navigate = useNavigate();
   
