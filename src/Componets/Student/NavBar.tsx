@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../ZustandStore/AuthStore";
 import Button from "../ReuseCompo/Button";
 import Logout from '../../Data/log-out.png';
-
+import usericon from '../../Data/user_icon.svg'
 
 function NavBar() {
   const isCourlistpage = location.pathname.includes("/Course-List");
@@ -44,51 +44,60 @@ function NavBar() {
           </div>
         )}
 
-        {isAuthenticate ? (
-          <button
-  onClick={handleLogout}
-  className="
-    group
-    flex items-center gap-2
-    px-3 sm:px-4 py-2
-    rounded-full
-    bg-gradient-to-r from-red-500 to-pink-500
-    hover:from-red-600 hover:to-pink-600
-    text-white
-    transition-all duration-300
-    shadow-md hover:shadow-lg
-    active:scale-95
-    cursor-pointer
-  "
->
-  {/* Icon */}
-  <img
-  src={Logout}
-  alt="Logout"
-  className="
-    h-5 sm:h-6
-    transition-all duration-300
-    group-hover:translate-x-1
-    group-hover:rotate-12
-    filter invert brightness-200
-  "
-/>
+        {isAuthenticate ? 
+        
+        (
 
-  {/* Text */}
-  <span
-    className="
-      max-w-0 overflow-hidden
-      group-hover:max-w-15
-      transition-all duration-300
-      text-sm font-medium
-      whitespace-nowrap
-    "
-  >
-    Logout
-  </span>
-</button>
+          
+          // logout button 
+//           <button
+//   onClick={handleLogout}
+//   className="
+//     group
+//     flex items-center gap-2
+//     px-3 sm:px-4 py-2
+//     rounded-full
+//     bg-gradient-to-r from-red-500 to-pink-500
+//     hover:from-red-600 hover:to-pink-600
+//     text-white
+//     transition-all duration-300
+//     shadow-md hover:shadow-lg
+//     active:scale-95
+//     cursor-pointer
+//   "
+// >
+//   {/* Icon */}
+//   <img
+//   src={Logout}
+//   alt="Logout"
+//   className="
+//     h-5 sm:h-6
+//     transition-all duration-300
+//     group-hover:translate-x-1
+//     group-hover:rotate-12
+//     filter invert brightness-200
+//   "
+// />
 
-        ) : (
+//   {/* Text */}
+//   <span
+//     className="
+//       max-w-0 overflow-hidden
+//       group-hover:max-w-15
+//       transition-all duration-300
+//       text-sm font-medium
+//       whitespace-nowrap
+//     "
+//   >
+//     Logout
+//   </span>
+// </button>
+
+          <div>
+            <img src={usericon} alt="" className={`h-6 cursor-pointer`} onClick={() => navigate("/Profile")} />
+          </div>
+        )
+          : (
           <button
             className="
       flex items-center justify-center

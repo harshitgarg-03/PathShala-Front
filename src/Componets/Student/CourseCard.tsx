@@ -1,12 +1,10 @@
 import { assets } from "../../Data/assets.ts";
-import { useStore } from "../../ZustandStore/Store.js";
-import type { CourseCardProp } from "../../Types/index.js";
+import type { course } from "../../Types/index.js";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { CourseStore } from "../../ZustandStore/CourseStore.ts";
 
-function CourseCard({ course }: CourseCardProp) {
-  const currency = useStore((s) => s.currency);
-  const CourseRating = useStore((s) => s.CourseRatingFunction);
+function CourseCard({ course }: { course: course }) {
+  const currency = CourseStore((s) => s.currency);
   const navigate = useNavigate();
   
   const HandlecourseCard = () => {
@@ -24,7 +22,7 @@ function CourseCard({ course }: CourseCardProp) {
     >
       <div className="w-full h-40 sm:h-44 p-2 md:h-48 overflow-hidden">
         <img
-          src={course.courseThumbnail}
+          src={course.thumbnail}
           alt=""
           className="w-full h-full object-cover"
         />
@@ -32,25 +30,25 @@ function CourseCard({ course }: CourseCardProp) {
 
       <div className="p-4 space-y-2">
         <h1 className="text-base sm:text-lg font-semibold text-gray-800 line-clamp-2">
-          {course.courseTitle}
+          {course.title}
         </h1>
 
         <div
           className="text-sm text-gray-600 line-clamp-2"
           dangerouslySetInnerHTML={{
-            __html: course.courseDescription,
+            __html: course.description,
           }}
         ></div>
 
         <div className="flex items-center gap-1 text-sm">
-          <p className="font-medium text-gray-700">{CourseRating(course)}</p>
+          <p className="font-medium text-gray-700">{course.averageRating}</p>
 
           <div className="flex">
             {[...Array(5)].map((_, i) => (
               <img
                 key={i}
                 src={
-                  i < Math.floor(CourseRating(course))
+                  i < Math.floor(course.averageRating)
                     ? assets.star
                     : assets.star_blank
                 }
@@ -60,14 +58,14 @@ function CourseCard({ course }: CourseCardProp) {
             ))}
           </div>
 
-          <p className="text-gray-500 ml-1">{course.courseRatings.length}</p>
+          <p className="text-gray-500 ml-1">{course.reviews.length}</p>
         </div>
 
         {/* Price */}
         <div className="pt-2">
           <p className="text-lg font-bold text-blue-700">
             {currency}{" "}
-            {course.coursePrice - (course.discount * course.coursePrice) / 100}
+            {course.price - (course.discount * course.price) / 100}
           </p>
         </div>
       </div>
