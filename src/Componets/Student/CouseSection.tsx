@@ -13,6 +13,7 @@ function CouseSection() {
     Fetchcourses();
   }, []);
 
+  
   return (
     <div className="mt-24 px-4 sm:px-6 lg:px-8">
       {/* Heading */}
