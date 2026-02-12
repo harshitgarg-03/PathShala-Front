@@ -4,15 +4,16 @@ import { useEffect, useState } from "react";
 import SearchBar from "../../Componets/Student/SearchBar";
 import Wrapper from "../../Componets/ReuseCompo/Wrapper";
 import { useNavigate, useParams } from "react-router-dom";
-import type { dummyCoursesProp } from "../../Types";
+import type { course, dummyCoursesProp } from "../../Types";
 import cross from "../../Data/cross_icon.svg";
+import { CourseStore } from "../../ZustandStore/CourseStore";
 
 function CoursesList() {
-  const Courses = useStore((s) => s.courses);
-  const FetchCourses = useStore((s) => s.FetchAllCourses);
+  const Courses = CourseStore((s) => s.courses);
+  const FetchCourses = CourseStore((s) => s.FetchAllCourse);
   const { input } = useParams();
   const navigate = useNavigate();
-  const [FilterData, setFilterData] = useState<dummyCoursesProp[]>([]);
+  const [FilterData, setFilterData] = useState<course[]>([]);
   const isSpecificCourse = !!input;
   
   useEffect(() => {
@@ -27,7 +28,7 @@ function CoursesList() {
       input
         ? setFilterData(
             tempCourses.filter((item) =>
-              item.courseTitle.toLowerCase().includes(input.toLowerCase()),
+              item.title.toLowerCase().includes(input.toLowerCase()),
             ),
           )
         : setFilterData(tempCourses);
