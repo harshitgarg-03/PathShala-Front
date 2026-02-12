@@ -20,9 +20,8 @@ function Home() {
         <Companies />
         <CouseSection />
         <Testimonial />
+        
       </Wrapper>
-
-      <Footer />
     </div>
   );
 }
