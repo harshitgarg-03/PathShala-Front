@@ -1,34 +1,30 @@
 import { useNavigate, useParams } from "react-router-dom";
 import Footer from "../../Componets/Student/Footer";
-import { useStore } from "../../ZustandStore/Store";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import leftclockicon from "../../Data/time_left_clock_icon.svg";
 import clockicon from "../../Data/time_clock_icon.svg";
 import lessonicon from "../../Data/lesson_icon.svg";
 import star from "../../Data/rating_star.svg";
 import { useAuth } from "../../ZustandStore/AuthStore";
-// import youtube from 'react-youtube'
-import YouTube from "react-youtube";
 import croosicon from "../../Data/cross_icon.svg";
 import Loading from "../../Componets/Student/Loading";
-
+import { CourseStore } from "../../ZustandStore/CourseStore";
 
 function CourseDetails() {
-  const course = useStore((s) => s.SpecificCourse);
-  const [chapterDuration, setChapterDuration] = useState<number>(0);
-  const courseRating = useStore((s) => s.CourseRatingFunction);
+  const course = CourseStore((s) => s.specificCourse);
   console.log("course is ", course);
   const navigate = useNavigate();
   const isAuthenticate = useAuth((s) => s.isAuthenticate);
-  const [playerData, setPlayerData] = useState<object | null>(null);
-  const isLoading = useStore(s => s.isLoading);
-  const CourseDetailfunc = useStore((s) => s.CourseDetailFunc);
-const { id } = useParams(); 
+  const [playerData, setPlayerData] = useState<string | null>(null);
+  const isLoading = CourseStore((s) => s.isLoading);
+  const FetchCourse = CourseStore((s) => s.FetchSpecificCourse);
+  const { id } = useParams();
   useEffect(() => {
-    CourseDetailfunc(id)
-  }, [id])
-  if(isLoading){
-    return <Loading/>
+    if (!id) return;
+    FetchCourse(id);
+  }, [id]);
+  if (isLoading) {
+    return <Loading />;
   }
 
   return (
@@ -43,26 +39,26 @@ const { id } = useParams();
               Home
             </span>
             <span>/</span>
-            <span className="font-medium text-gray-800">
-              {course.courseTitle}
-            </span>
+            <span className="font-medium text-gray-800">{course.title}</span>
           </div>
 
           <div className="flex flex-col lg:flex-row gap-10">
             <div className="w-full lg:w-2/3 space-y-6">
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">
-                {course.courseTitle}
+                {course.title}
               </h1>
 
               <p
                 className="text-gray-600 text-sm sm:text-base leading-relaxed"
                 dangerouslySetInnerHTML={{
-                  __html: course.courseDescription,
+                  __html: course.description,
                 }}
               ></p>
 
               <div className="flex items-center gap-3 text-sm text-gray-700">
-                <span className="font-semibold text-orange-500">3 ★★★☆☆</span>
+                <span className="font-semibold text-orange-500">
+                  {course.averageRating} ★★★☆☆
+                </span>
 
                 <span className="text-blue-600 cursor-pointer">
                   (5 ratings)
@@ -70,13 +66,13 @@ const { id } = useParams();
 
                 <span>•</span>
 
-                <span>{course.enrolledStudents.length} students</span>
+                <span>{course.enrollStudents.length} students</span>
               </div>
 
               <p className="text-sm text-gray-700">
                 Course by{" "}
                 <span className="text-blue-700 font-medium cursor-pointer">
-                  {course.educator}
+                  {course.instructor.name}
                 </span>
               </p>
 
@@ -84,44 +80,40 @@ const { id } = useParams();
                 <h2 className="text-xl font-semibold mb-4">Course Structure</h2>
 
                 <div className="space-y-4">
-                  {course.courseContent.map((chapter, i) => (
+                  {course.section.map((chapter, i) => (
                     <div
                       key={i}
                       className="border border-gray-200 rounded-lg p-4 bg-white"
                     >
                       <div className="flex justify-between items-center mb-3">
                         <h3 className="font-medium text-gray-800">
-                          {chapter.chapterTitle}
+                          {chapter.title}
                         </h3>
 
                         <span className="text-sm text-gray-500">
-                          {chapter.chapterContent.length} lectures •{" "}
-                          {chapterDuration} hrs
+                          {chapter.lectures.length} lectures •{" "}
+                          {chapter.duration} hrs
                         </span>
                       </div>
 
                       <div className="space-y-2">
-                        {chapter.chapterContent.map((lecture, idx) => (
+                        {chapter.lectures.map((lecture, idx) => (
                           <div
                             key={idx}
                             className="flex justify-between text-sm text-gray-600 pl-2"
                           >
-                            <span>▶ {lecture.lectureTitle}</span>
+                            <span>▶ {lecture.title}</span>
                             <div>
                               <span
                                 className={`font-semibold text-blue-600 cursor-pointer`}
                                 onClick={() =>
-                                  setPlayerData({
-                                    videoid: lecture.lectureUrl
-                                      .split("/")
-                                      .pop(),
-                                  })
+                                  setPlayerData(() => lecture.videoUrl)
                                 }
                               >
                                 {" "}
                                 {lecture.isPreviewFree ? "Preview" : ""}{" "}
                               </span>
-                              <span>{lecture.lectureDuration / 60} min</span>
+                              <span>{lecture.durationFormatted} hrs</span>
                             </div>
                             {/* {setChapterDuration(prev => prev+(lecture.lectureDuration / 60))} */}
                           </div>
@@ -140,7 +132,7 @@ const { id } = useParams();
                 <p
                   className="text-gray-600 leading-relaxed text-sm sm:text-base"
                   dangerouslySetInnerHTML={{
-                    __html: course.courseDescription,
+                    __html: course.description,
                   }}
                 ></p>
               </div>
@@ -162,14 +154,10 @@ overflow-hidden
 
                 {playerData ? (
                   <>
-                    <YouTube
-                      videoId={playerData.videoid}
-                      opts={{
-                        playerVars: {
-                          autoplay: 1,
-                        },
-                      }}
-                      iframeClassName="w-full aspect-video"
+                    <video
+                      src={playerData}
+                      controls
+                      className="w-full aspect-video rounded-lg"
                     />
 
                     <button
@@ -190,9 +178,9 @@ overflow-hidden
                   </>
                 ) : (
                   <img
-                    src={course.courseThumbnail}
+                    src={course.thumbnail}
                     alt="Thumbnail"
-                    className="w-full h-48 object-cover p-2"
+                    className="w-full aspect-auto object-cover p-2"
                   />
                 )}
 
@@ -208,13 +196,13 @@ overflow-hidden
                     <span className="text-3xl font-bold text-gray-900">
                       $
                       {(
-                        course.coursePrice -
-                        Number((course.discount * course.coursePrice) / 100)
+                        course.price -
+                        Number((course.discount * course.price) / 100)
                       ).toFixed(2)}
                     </span>
 
                     <span className="text-gray-500 line-through text-sm">
-                      ${course.coursePrice}
+                      ${course.price}
                     </span>
 
                     <span className="text-green-600 text-sm font-medium">
@@ -226,7 +214,7 @@ overflow-hidden
                   <div className="space-y-2 flex text-sm gap-2 items-center text-gray-600">
                     <div className="flex items-center gap-2">
                       <img src={star} alt="" className="h-4" />
-                      <span>{courseRating(course)}</span>
+                      <span>{course.averageRating}</span>
                       <span>Ratings</span>
                       <span className="text-gray-400">|</span>
                     </div>
