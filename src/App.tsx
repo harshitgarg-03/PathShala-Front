@@ -15,6 +15,9 @@ import Login from "./Pages/Student/Login";
 import SignUp from "./Pages/Student/SignUp";
 import { useAuth } from "./ZustandStore/AuthStore";
 import { useEffect } from "react";
+import ProfileCard from "./Pages/Student/ProfileCard";
+import EducatorProfile from './Pages/Educator/ProfileCard'
+import Footer from "./Componets/Student/Footer";
 
 function App() {
   const isEducatorPage = useMatch("/Educator/*");
@@ -35,13 +38,18 @@ function App() {
         <Route path="/My-Enroll" element={<MyEnrollment />} />
         <Route path="/Player/:courseId" element={<Player />} />
         <Route path="/Loading/:path" element={<Loading />} />
+        <Route path="/Profile" element={<ProfileCard />} />
+
         <Route path="/Educator" element={<Educator />}>
           <Route path="DashBoard" element={<DashBoard />} />
+          <Route path="Profile" element={<EducatorProfile/>} />
           <Route path="MyCourses" element={<MyCourses />} />
           <Route path="StudentsEnroll" element={<StudentEnrolled />} />
           <Route path="AddCourse" element={<AddCourse />} />
         </Route>
       </Routes>
+
+      <Footer/>
     </>
   );
 }
