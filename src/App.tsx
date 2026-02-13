@@ -18,6 +18,7 @@ import { useEffect } from "react";
 import ProfileCard from "./Pages/Student/ProfileCard";
 import EducatorProfile from './Pages/Educator/ProfileCard'
 import Footer from "./Componets/Student/Footer";
+import Addsections from "./Pages/Educator/Addsections";
 
 function App() {
   const isEducatorPage = useMatch("/Educator/*");
@@ -46,6 +47,7 @@ function App() {
           <Route path="MyCourses" element={<MyCourses />} />
           <Route path="StudentsEnroll" element={<StudentEnrolled />} />
           <Route path="AddCourse" element={<AddCourse />} />
+          <Route path="AddSection" element={<Addsections/>} />
         </Route>
       </Routes>
 
