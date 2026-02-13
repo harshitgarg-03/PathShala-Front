@@ -33,15 +33,24 @@ export const CourseStore = create<CourseStoreProp>((set, get) => ({
         }
     },
 
-    CreateCourse: async() => {
+    CreateCourse: async(formdata) => {
         set({isLoading: true})
         try {
-            const res = api.post("/createCourse", {
-                 
-            })
+            const res = api.post("/createCourse", formdata)
             set({isLoading: false})
         } catch (error: any) {
             set({isLoading: false, error: error.data})
+        }
+    },
+
+    AddSection: async(data) => {
+        set({isLoading: false})
+        try {
+            const res = await api.post("/createSection/:courseId", {
+                data
+            })
+        } catch (error: any) {
+            set({isLoading: false, error : error.data})
         }
     }
 
