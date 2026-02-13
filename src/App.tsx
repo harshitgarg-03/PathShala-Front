@@ -40,7 +40,7 @@ function App() {
         <Route path="/Player/:courseId" element={<Player />} />
         <Route path="/Loading/:path" element={<Loading />} />
         <Route path="/Profile" element={<ProfileCard />} />
- ] 
+ ]
         <Route path="/Educator" element={<Educator />}>
           <Route path="DashBoard" element={<DashBoard />} />
           <Route path="Profile" element={<EducatorProfile/>} />
