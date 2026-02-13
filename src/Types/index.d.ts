@@ -75,7 +75,7 @@ interface CourseStoreProp {
   error: null | string;
   FetchAllCourse: () => Promise<void>;
   FetchSpecificCourse: (id: string) => Promise<void>;
-  CreateCourse: () => void;
+  CreateCourse: (formdata : FormData) => Promise<void>;
 }
 
 interface course {
