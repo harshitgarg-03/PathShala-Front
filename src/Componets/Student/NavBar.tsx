@@ -32,8 +32,11 @@ function NavBar() {
         {isAuthenticate && (
           <div
             className={`hidden sm:flex flex-row font-medium font-sans items-center justify-center`}
-          >
-            <Button title="Become Educator" classname="px-4 mr-2" />
+          > 
+          <div onClick={() => navigate("/Educator/DashBoard")} >
+            <Button  title="Become Educator" classname="px-4 mr-2" />
+
+          </div>
             <span className="text-gray-400 mx-1 md:mx-2">|</span>
             <Link
               to={"/My-Enroll"}

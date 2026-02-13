@@ -10,11 +10,11 @@ function CouseSection() {
   const Fetchcourses = CourseStore((s) => s.FetchAllCourse);
   const dummycourses = CourseStore((s) => s.courses);
 
-  if(dummycourses == null){
+  
     useEffect(() => {
       Fetchcourses();
     }, []);
-  }
+  
 
 
 
@@ -55,7 +55,7 @@ function CouseSection() {
             
         {dummycourses
           ? dummycourses
-              .slice(0, 4)
+              // .slice(0, 4)
               .map((course: course, i: number) => (
                 <CourseCard course={course} key={i} />
               ))
