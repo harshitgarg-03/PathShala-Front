@@ -16,7 +16,7 @@ import SignUp from "./Pages/Student/SignUp";
 import { useAuth } from "./ZustandStore/AuthStore";
 import { useEffect } from "react";
 import ProfileCard from "./Pages/Student/ProfileCard";
-import EducatorProfile from './Pages/Educator/ProfileCard'
+import EducatorProfile from "./Pages/Educator/ProfileCard";
 import Footer from "./Componets/Student/Footer";
 import Addsections from "./Pages/Educator/Addsections";
 
@@ -35,23 +35,22 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/Course-List" element={<CoursesList />} />
         <Route path="/Course-List/:input" element={<CoursesList />} />
-        <Route path="/Course-Details/:id" element={<CourseDetails  />} />
+        <Route path="/Course-Details/:id" element={<CourseDetails />} />
         <Route path="/My-Enroll" element={<MyEnrollment />} />
         <Route path="/Player/:courseId" element={<Player />} />
         <Route path="/Loading/:path" element={<Loading />} />
         <Route path="/Profile" element={<ProfileCard />} />
- ]        
         <Route path="/Educator" element={<Educator />}>
           <Route path="DashBoard" element={<DashBoard />} />
-          <Route path="Profile" element={<EducatorProfile/>} />
+          <Route path="Profile" element={<EducatorProfile />} />
           <Route path="MyCourses" element={<MyCourses />} />
           <Route path="StudentsEnroll" element={<StudentEnrolled />} />
           <Route path="AddCourse" element={<AddCourse />} />
-          <Route path="AddSection" element={<Addsections/>} />
+          <Route path="AddSection/:courseId" element={<Addsections />} />
         </Route>
       </Routes>
 
-      <Footer/>
+      <Footer />
     </>
   );
 }
