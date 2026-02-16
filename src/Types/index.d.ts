@@ -69,13 +69,28 @@ interface CourseDetailProp {
 
 interface CourseStoreProp {
   currency: string;
-  courses: null | course[];
+  courses: course[] | null;
   specificCourse: null | course;
   isLoading: boolean;
   error: null | string;
   FetchAllCourse: () => Promise<void>;
   FetchSpecificCourse: (id: string) => Promise<void>;
   CreateCourse: (formdata : FormData) => Promise<void>;
+  AddSection: (Data :{
+    title: string,
+    description: string,
+    order: number,
+    courseId: string;
+  }) => Promise<boolean>;
+
+  AddLecture: (Data : {
+    title: string,
+    order: number,
+    isPrevieFree: boolean,
+    duration: string,
+    courseId: string,
+    sectionId: string
+  }) => Promise<void>
 }
 
 interface course {
@@ -92,7 +107,8 @@ interface course {
     name: string;
     avatar?: string;
   };
-  section: {
+  sections: {
+    _id: string
     title: string;
     description: string;
     order: string;
