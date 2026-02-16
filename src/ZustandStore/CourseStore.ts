@@ -24,8 +24,10 @@ export const CourseStore = create<CourseStoreProp>((set, get) => ({
         try {
             const AllCourses = get().courses;
             if(AllCourses){
-                const course = AllCourses.filter((item) => item._id == id);
-                set({specificCourse: course[0],  isLoading: false})
+                const course = AllCourses.find((item) => item._id == id); 
+                // console.log("telling", course[0]);
+                               
+                set({specificCourse: course,  isLoading: false})
             }
         } catch (error: any) {
             console.log(error);
@@ -36,22 +38,35 @@ export const CourseStore = create<CourseStoreProp>((set, get) => ({
     CreateCourse: async(formdata) => {
         set({isLoading: true})
         try {
-            const res = api.post("/createCourse", formdata)
-            set({isLoading: false})
+            const res = await api.post("/createCourse", formdata)
+            set({isLoading: false, specificCourse: res.data.data});
         } catch (error: any) {
             set({isLoading: false, error: error.data})
         }
     },
 
     AddSection: async(data) => {
-        set({isLoading: false})
+        set({isLoading: true})
         try {
-            const res = await api.post("/createSection/:courseId", {
+            const res = await api.post(`/createSection/${data.courseId}`,
                 data
-            })
+            )
+            set({ isLoading: false })
+            return true;
         } catch (error: any) {
             set({isLoading: false, error : error.data})
+            return false;
+        }
+    },
+
+    AddLecture: async(data) => {
+        set({isLoading: true});
+        try {
+            const res = await api.post(`/createLecture/${data.courseId}/${data.sectionId}`,
+                data
+            )
+        } catch (error: any) {
+            set({isLoading: false})
         }
     }
-
 }))
