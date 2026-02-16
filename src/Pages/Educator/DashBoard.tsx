@@ -19,6 +19,13 @@ function DashBoard() {
     }
   }, []);
 
+  const HandlecreateCourse = () => {
+    navigate("/Educator/AddCourse")
+  }
+  
+  const HandlecreateSection = (id: string) => {
+    navigate(`/Educator/AddSection/${id}`)
+  }
   const ScrollRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: "left" | "right") => {
@@ -66,7 +73,7 @@ function DashBoard() {
 
           <button
             className="flex items-center gap-2 bg-blue-600 cursor-pointer hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow transition"
-            onClick={() => navigate("/Educator/AddCourse")}
+            onClick={HandlecreateCourse}
           >
             <img src={plusicon} alt="" className="h-4 w-4" />
             Create Course
@@ -117,7 +124,7 @@ function DashBoard() {
                   className="flex gap-6 overflow-x-auto scroll-smooth no-scrollbar px-10"
                 >
                   {AllCourses.map((item) => (
-                    <div className="min-w-75 shrink-0">
+                    <div className="min-w-75 shrink-0" onClick={() => HandlecreateSection(item._id)} > 
                       <CourseCard key={item._id} course={item} />
                     </div>
                   ))}
