@@ -12,7 +12,7 @@ interface WrapperProp {
 }
 
 interface ProfileProp {
-isEducator: boolean
+  isEducator: boolean;
 }
 
 interface StoreProp {
@@ -73,24 +73,57 @@ interface CourseStoreProp {
   specificCourse: null | course;
   isLoading: boolean;
   error: null | string;
+  specificSection: null | {
+    _id: string;
+    title: string;
+    description: string;
+    order: string;
+    courseId: string;
+    lectures: lecture[];
+    duration: number;
+  };
+  FetchSpecificSection: (id: string) => Promise<void>;
   FetchAllCourse: () => Promise<void>;
   FetchSpecificCourse: (id: string) => Promise<void>;
-  CreateCourse: (formdata : FormData) => Promise<void>;
-  AddSection: (Data :{
-    title: string,
-    description: string,
-    order: number,
+  CreateCourse: (formdata: FormData) => Promise<void>;
+  AddSection: (Data: {
+    title: string;
+    description: string;
+    order: number;
     courseId: string;
   }) => Promise<boolean>;
 
-  AddLecture: (Data : {
-    title: string,
-    order: number,
-    isPrevieFree: boolean,
-    duration: string,
-    courseId: string,
-    sectionId: string
-  }) => Promise<void>
+  AddLecture: (Data: FormData) => Promise<[]>;
+}
+
+interface lecture {
+  _id: string;
+  title: string;
+  description: string;
+  videoUrl: string;
+  videoPublicId: string;
+  duration: number;
+  durationFormatted: string;
+  thumbnail: string;
+  thumbnailPublicId: string;
+  isPreviewFree: boolean;
+  courseId: string;
+  sectionId: string;
+  resourceFiles: string[]; // PDFs, notes, etc.
+  captions: string; // subtitle file
+  transcript: string;
+  views: number;
+  order: number;
+}
+
+interface section {
+  _id: string;
+  title: string;
+  description: string;
+  order: string;
+  courseId: string;
+  lectures: lecture[];
+  duration: number;
 }
 
 interface course {
@@ -107,32 +140,7 @@ interface course {
     name: string;
     avatar?: string;
   };
-  sections: {
-    _id: string
-    title: string;
-    description: string;
-    order: string;
-    courseId: string;
-    lectures: {
-      title: string;
-      description: string;
-      videoUrl: string;
-      videoPublicId: string;
-      duration: number;
-      durationFormatted: string;
-      thumbnail: string;
-      thumbnailPublicId: string;
-      isPreviewFree: boolean;
-      courseId: string;
-      sectionId: string;
-      resourceFiles: string[]; // PDFs, notes, etc.
-      captions: string; // subtitle file
-      transcript: string;
-      views: number;
-      order: number;
-    }[];
-    duration: number;
-  }[];
+  sections: section[];
 
   enrollStudents: {
     name: string;
