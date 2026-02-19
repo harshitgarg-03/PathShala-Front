@@ -42,7 +42,8 @@ export const InternalLecture = ({
 
     if (videoFile) formData.append("video", videoFile);
     if (PdfFile) formData.append("pdf", PdfFile);
-
+    console.log("hello ");
+    
     const res = await addLecture(formData);
 
     if (res) {
@@ -208,29 +209,69 @@ export function InternalSection({
   return (
     <div className="bg-white border rounded-xl p-6 space-y-6">
       {/* 🔹 Section Header */}
-      <div className="space-y-4">
+      <div className="space-y-5">
+        {/* 🔹 Title Row */}
         <div
           className="flex items-center gap-3 cursor-pointer"
           onClick={() => setClicking(true)}
         >
-          <span className="font-semibold text-gray-800">Section {id + 1}:</span>
+          <span className="font-semibold text-gray-200">Section {id + 1}:</span>
 
           <input
             type="text"
             value={Title}
             onChange={(e) => setTitle(e.target.value)}
-            className="flex-1 px-3 py-2"
+            className="flex-1 bg-transparent px-3 py-2 rounded-md
+      border border-transparent
+      text-gray-100 placeholder-gray-500
+      focus:border-purple-500 focus:ring-2 focus:ring-purple-500
+      focus:outline-none transition"
+            placeholder="Section title"
           />
         </div>
 
+        {/* 🔹 Edit Mode */}
         {Clicking && (
-          <div>
+          <div className="space-y-4 pl-1">
+            {/* Description Label */}
+            <div className="text-sm font-medium text-gray-400">Description</div>
+
+            {/* Description Box */}
             <textarea
               value={Description}
               onChange={(e) => setDescription(e.target.value)}
+              placeholder="Write a short description..."
+              rows={3}
+              className="w-full bg-transparent
+        px-4 py-3 rounded-lg
+        border border-gray-700
+        text-gray-200 placeholder-gray-500
+        focus:ring-2 focus:ring-purple-500 focus:border-purple-500
+        focus:outline-none resize-none transition"
             />
 
-            <button onClick={() => setClicking(false)}>Update</button>
+            {/* Buttons */}
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setClicking(false)}
+                className="px-4 py-2 rounded-lg
+          border border-gray-600
+          text-gray-300 hover:bg-gray-800
+          transition"
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={() => setClicking(false)}
+                className="px-5 py-2 rounded-lg
+          bg-purple-600 text-white
+          hover:bg-purple-700
+          transition shadow-sm"
+              >
+                Update
+              </button>
+            </div>
           </div>
         )}
       </div>
