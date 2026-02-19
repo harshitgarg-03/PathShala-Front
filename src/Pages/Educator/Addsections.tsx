@@ -1,37 +1,57 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { CourseStore } from "../../ZustandStore/CourseStore";
+import type { section } from "../../Types";
 
-export const InternalLecture = ({ courseId, sectionId }: { courseId: string, sectionId: object }) => {
+export const InternalLecture = ({
+  courseId,
+  sectionId,
+  index,
+  lecture,
+}: {
+  courseId: string;
+  sectionId: string;
+  index: number;
+  lecture?: any;
+}) => {
+  const isTemp = lecture?.isTemp;
 
-  const [showContent, setShowContent] = useState(false);
-  const [videoUrl, setVideoUrl] = useState<File | null>(null);
-  const [clicking, setclicking] = useState(false);
-  const [title, settitle] = useState("");
-  const [isPreview, setisPreview] = useState(false);
-  const [Pdf, setPdf] = useState<File | null>(null);
-  const order = 1;
-  const courseid = courseId;
-  const duration = "12:30";
-  const sectionid = sectionId;
-  const addLecture = CourseStore(s => s.AddLecture);
+  const [showContent, setShowContent] = useState(isTemp ? true : false);
+  const [videoFile, setVideoFile] = useState<File | null>(null);
+  const [PdfFile, setPdfFile] = useState<File | null>(null);
 
-  const HandleLectureAdditon = () => {
-    setclicking(true);
-  };
+  const [title, settitle] = useState(lecture?.title || "");
+  const [isPreview, setisPreview] = useState(lecture.isPreviewFree || false);
 
-  const data = {
-    title: title,
-    duration: duration,
-    order: order,
-    isPreviewFree: isPreview,
-    courseId: courseid,
-    sectionId: sectionid
-  }
+  const addLecture = CourseStore((s) => s.AddLecture);
 
-  const HandleAddLecture = () => {
-    addLecture(data);
-    setShowContent(() => false);
+  const order = index + 1;
+  const duration = "5000";
+
+  const HandleAddLecture = async () => {
+    if (!title.trim()) return;
+
+    const formData = new FormData();
+
+    formData.append("title", title);
+    formData.append("duration", duration);
+    formData.append("order", String(order));
+    formData.append("isPreviewFree", String(isPreview));
+    formData.append("courseId", courseId);
+    formData.append("sectionId", sectionId);
+
+    if (videoFile) formData.append("video", videoFile);
+    if (PdfFile) formData.append("pdf", PdfFile);
+
+    const res = await addLecture(formData);
+
+    if (res) {
+      setShowContent(false);
+      settitle("");
+      setVideoFile(null);
+      setPdfFile(null);
+      setisPreview(false);
+    }
   };
 
   return (
@@ -43,25 +63,15 @@ export const InternalLecture = ({ courseId, sectionId }: { courseId: string, sec
           <span className="h-3 w-3 rounded-full bg-gray-700"></span>
 
           <div className="flex items-center gap-3 flex-1">
-            <span className="text-gray-700 font-medium">Lecture 1:</span>
+            <span className="text-gray-700 font-medium">Lecture {order}:</span>
 
             <input
               type="text"
               placeholder="Introduction"
               value={title}
               onChange={(e) => settitle(e.target.value)}
-              onClick={HandleLectureAdditon}
               className="flex-1 px-2 py-1 rounded-md border border-transparent focus:border-purple-500 focus:ring-2 focus:ring-purple-500 focus:outline-none text-sm"
             />
-
-            {clicking && (
-              <button
-                className="px-3 py-1 text-xs rounded-md bg-purple-600 text-white hover:bg-purple-700 transition"
-                onClick={() => setclicking(false)}
-              >
-                Save
-              </button>
-            )}
           </div>
         </div>
 
@@ -70,7 +80,7 @@ export const InternalLecture = ({ courseId, sectionId }: { courseId: string, sec
           onClick={() => setShowContent((prev) => !prev)}
           className="ml-4 px-4 py-1.5 text-sm rounded-lg border border-purple-500 text-purple-600 hover:bg-purple-50 transition"
         >
-          + Content
+          + {lecture?.title ? "Update" : "Content"}
         </button>
       </div>
 
@@ -81,15 +91,19 @@ export const InternalLecture = ({ courseId, sectionId }: { courseId: string, sec
             Upload content
           </h3>
 
-          {/* Video URL */}
+          {/* existing video */}
+          {lecture?.videoUrl && (
+            <div className="text-xs text-green-600">✅ Video uploaded</div>
+          )}
+
+          {/* Video File Input */}
           <div className="flex flex-col gap-2">
             <label className="text-sm text-gray-600">Video File</label>
 
             <input
               type="file"
               accept="video/*,video/mp4"
-              // value={videoUrl}
-              onChange={(e) => setVideoUrl(e.target.files?.[0]!)}
+              onChange={(e) => setVideoFile(e.target.files?.[0]!)}
               className="block w-full text-sm text-gray-600
               file:mr-4 file:py-2 file:px-4
               file:rounded-lg file:border-0
@@ -100,7 +114,12 @@ export const InternalLecture = ({ courseId, sectionId }: { courseId: string, sec
             />
           </div>
 
-          {/* PDF Upload */}
+          {/* existing pdf */}
+          {lecture?.resourceFiles?.[0] && (
+            <div className="text-xs text-green-600">📄 PDF attached</div>
+          )}
+
+          {/* PDF input */}
           <div className="flex flex-col gap-2">
             <label className="text-sm text-gray-600">
               Attach PDF / Resources
@@ -109,8 +128,7 @@ export const InternalLecture = ({ courseId, sectionId }: { courseId: string, sec
             <input
               type="file"
               accept="application/pdf"
-              // value={Pdf}
-              onChange={(e) => setPdf(e.target.files?.[0]!)}
+              onChange={(e) => setPdfFile(e.target.files?.[0]!)}
               className="block w-full text-sm text-gray-600
               file:mr-4 file:py-2 file:px-4
               file:rounded-lg file:border-0
@@ -149,90 +167,87 @@ export const InternalLecture = ({ courseId, sectionId }: { courseId: string, sec
   );
 };
 
-export function InternalSection({id, sectionId }: { id: number, sectionId: object}) {
-  const [lectures, setLectures] = useState([{ id: 1 }]);
+export function InternalSection({
+  id,
+  sectionId,
+  courseId,
+  section,
+}: {
+  id: number;
+  sectionId: string;
+  courseId: string;
+  section: section;
+}) {
+  const [localLectures, setLocalLectures] = useState<any[]>(
+    section.lectures || [],
+  );
+  const [Title, setTitle] = useState(section.title || "Introduction");
+  const [Description, setDescription] = useState(section.description || "");
   const [Clicking, setClicking] = useState(false);
-  const [Title, setTitle] = useState("Introduction");
-  const [Description, setDescription] = useState("");
-  const { courseid } = useParams();
-  const [order, setorder] = useState(0);
-  const AddSection = CourseStore((s) => s.AddSection);
+
+  useEffect(() => {
+    setLocalLectures(section.lectures || []);
+  }, [section]);
 
   const handleLecture = () => {
-    setLectures((prev) => [...prev, { id: prev.length + 1 }]);
-  };
-  
-  const data = {
-    title: Title,
-    description: Description,
-    order: order,
-    courseId: courseid!,
-  };
-  console.log("section", sectionId);
-  
-  const HandleAddingSection = () => {
-    setClicking(!Clicking);
-    //AddSection(data)
+    setLocalLectures((prev) => {
+      if (prev.some((lec) => lec.isTemp)) return prev;
+
+      return [
+        ...prev,
+        {
+          _id: `temp-${Date.now()}`, // temp id for React key
+          title: "",
+          isPreviewFree: false,
+          isTemp: true, // optional flag
+        },
+      ];
+    });
   };
 
   return (
     <div className="bg-white border rounded-xl p-6 space-y-6">
       {/* 🔹 Section Header */}
       <div className="space-y-4">
-        {/* Title Row */}
         <div
           className="flex items-center gap-3 cursor-pointer"
           onClick={() => setClicking(true)}
         >
-          <span className="font-semibold text-gray-800">Section {id+1}:</span>
+          <span className="font-semibold text-gray-800">Section {id + 1}:</span>
 
           <input
             type="text"
             value={Title}
             onChange={(e) => setTitle(e.target.value)}
-            className="flex-1 px-3 py-2 rounded-lg border border-transparent focus:border-purple-500 focus:ring-2 focus:ring-purple-500 focus:outline-none text-gray-700"
+            className="flex-1 px-3 py-2"
           />
         </div>
 
-        {/* 🔹 Edit Mode */}
         {Clicking && (
-          <div className="space-y-4 pl-1">
-            {/* Title Label */}
-            <div className="text-sm font-medium text-gray-600">Title</div>
-
-            {/* Description */}
+          <div>
             <textarea
-              placeholder="Description.."
               value={Description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full min-h-25 px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:outline-none resize-none text-sm"
             />
 
-            {/* Save Button */}
-            <div className="flex justify-end">
-              <button
-                onClick={HandleAddingSection}
-                className="px-5 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition"
-              >
-                Update
-              </button>
-            </div>
+            <button onClick={() => setClicking(false)}>Update</button>
           </div>
         )}
       </div>
 
-      {/* 🔹 Lectures */}
-      {lectures.map((item) => (
-        <InternalLecture key={item.id} courseId={courseid!} sectionId={sectionId} />
+      {/* 🔹 Lectures — USE LOCAL STATE */}
+      {localLectures.map((lec: any, index: number) => (
+        <InternalLecture
+          key={lec._id || index}
+          courseId={courseId}
+          sectionId={sectionId}
+          lecture={lec}
+          index={index}
+        />
       ))}
 
       {/* 🔹 Add Lecture Button */}
-      <button
-        onClick={handleLecture}
-        className="px-4 py-2 border rounded-lg text-purple-600 border-purple-500 hover:bg-purple-50 transition"
-      >
-        + Add Lecture
-      </button>
+      <button onClick={handleLecture}>+ Add Lecture</button>
     </div>
   );
 }
@@ -240,7 +255,7 @@ export function InternalSection({id, sectionId }: { id: number, sectionId: objec
 export function SectionForm({
   onClose,
   order,
-  setOrders
+  setOrders,
 }: {
   order: number;
   onClose: () => void;
@@ -258,7 +273,7 @@ export function SectionForm({
     order: order,
     courseId: courseId!,
   };
-  const HandleSectionAdding = async() => {
+  const HandleSectionAdding = async () => {
     console.log(data);
 
     const res = await AddSection(data);
@@ -344,9 +359,6 @@ function Addsections() {
       setorder(specificCourse.sections.length);
     }
   }, [specificCourse]);
-  console.log(specificCourse);
-
-  console.log("add", order);
 
   return (
     <div className="bg-gray-100 min-h-screen p-6">
@@ -354,7 +366,13 @@ function Addsections() {
         <h2 className="text-xl font-semibold text-gray-800">Create sections</h2>
 
         {specificCourse?.sections?.map((item, idx) => (
-          <InternalSection key={item._id} sectionId={item} id={idx} />
+          <InternalSection
+            key={item?._id}
+            sectionId={item?._id}
+            section={item}
+            courseId={specificCourse._id}
+            id={idx}
+          />
         ))}
 
         <button
@@ -368,7 +386,11 @@ function Addsections() {
       </div>
 
       {isOpen && (
-        <SectionForm onClose={() => setIsOpen(false)} order={order} setOrders={() => setorder(order+1)}/>
+        <SectionForm
+          onClose={() => setIsOpen(false)}
+          order={order}
+          setOrders={() => setorder(order + 1)}
+        />
       )}
     </div>
   );
