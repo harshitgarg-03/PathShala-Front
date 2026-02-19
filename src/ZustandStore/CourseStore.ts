@@ -59,7 +59,8 @@ export const CourseStore = create<CourseStoreProp>((set, get) => ({
       set({ isLoading: false, error: error.data });
     }
   },
-
+ 
+  
   AddSection: async (data) => {
     set({ isLoading: true });
     try {
