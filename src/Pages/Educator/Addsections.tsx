@@ -43,7 +43,7 @@ export const InternalLecture = ({
     if (videoFile) formData.append("video", videoFile);
     if (PdfFile) formData.append("pdf", PdfFile);
     console.log("hello ");
-    
+
     const res = await addLecture(formData);
 
     if (res) {
@@ -388,10 +388,15 @@ function Addsections() {
 
   const FetchspecificCorse = CourseStore((s) => s.FetchSpecificCourse);
   const specificCourse = CourseStore((s) => s.specificCourse);
+  const PulishedFunc = CourseStore(s => s.updateCourse)
   useEffect(() => {
     fetchallcourses();
   }, []);
 
+  const HnadelPulishedCourse = () => {
+    PulishedFunc(courseId!, {status : "Published"})
+  }
+  
   useEffect(() => {
     if (courses && courseId) FetchspecificCorse(courseId!);
   }, [courses, courseId]);
@@ -416,14 +421,22 @@ function Addsections() {
           />
         ))}
 
-        <button
-          onClick={() => {
-            setIsOpen(!isOpen);
-          }}
-          className="px-5 py-2 border border-purple-500 text-purple-600 rounded-lg hover:bg-purple-50 transition"
-        >
-          + Section
-        </button>
+        <div className="flex justify-between" >
+          <button
+            onClick={() => {
+              setIsOpen(!isOpen);
+            }}
+            className="px-5 py-2 border border-purple-500 text-purple-600 rounded-lg hover:bg-purple-50 transition"
+          >
+            + Section
+          </button>
+
+          <button className="px-5 py-2 border text-xl font-bold cursor-pointer border-purple-500 text-gray-600 rounded-lg hover:bg-purple-50 transition"
+          onClick={HnadelPulishedCourse}
+          >
+            Publish
+          </button>
+        </div>
       </div>
 
       {isOpen && (
