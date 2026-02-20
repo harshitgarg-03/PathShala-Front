@@ -8,7 +8,7 @@ function AddCourse() {
   const CreateCourse = CourseStore((s) => s.CreateCourse);
   const [title, settitle] = useState<string>("");
   const [description, setdescription] = useState<string>("");
-  const [price, setprice] = useState<string>("");
+  const [price, setprice] = useState<number>(0);
   const [level, setlevel] = useState<string>("Beginner");
   const [thumbnail, setthumbnail] = useState<File | null>(null);
   const [category, setcategory] = useState<string>("");
@@ -18,7 +18,7 @@ function AddCourse() {
     const formdata = new FormData();
     formdata.append("title", title);
     formdata.append("description", description);
-    formdata.append("price", price);
+    formdata.append("price", String(price));
     formdata.append("level", level);
     if (thumbnail) formdata.append("thumbnail", thumbnail);
     formdata.append("category", category);
@@ -96,7 +96,7 @@ function AddCourse() {
                   placeholder="49.99"
                   className="w-full px-4 py-3 focus:outline-none"
                   value={price}
-                  onChange={(e) => setprice(e.target.value)}
+                  onChange={(e) => setprice(Number(e.target.value))}
                 />
               </div>
             </div>
