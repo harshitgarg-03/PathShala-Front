@@ -5,19 +5,16 @@ import { useStore } from "../../ZustandStore/Store";
 import CourseCard from "./CourseCard";
 import { useEffect } from "react";
 import { CourseStore } from "../../ZustandStore/CourseStore";
+import { StudentCourseStore } from "../../ZustandStore/StudentCourseStore";
 
 function CouseSection() {
-  const Fetchcourses = CourseStore((s) => s.FetchAllCourse);
-  const dummycourses = CourseStore((s) => s.courses);
-
+  const Fetchcourses = StudentCourseStore((s) => s.getPublishedCourse);
+  const dummycourses = StudentCourseStore((s) => s.publishedCourses);
   
     useEffect(() => {
       Fetchcourses();
     }, []);
   
-
-
-
   return (
     <div className="mt-24 px-4 sm:px-6 lg:px-8">
       {/* Heading */}
