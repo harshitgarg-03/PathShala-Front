@@ -6,6 +6,7 @@ import { CourseStore } from "../../ZustandStore/CourseStore.ts";
 function CourseCard( { course }: { course: course } ) {
   const currency = CourseStore((s) => s.currency);
   const navigate = useNavigate();
+  console.log("PRICE ", typeof course.discount);
   
   const HandlecourseCard = () => {
     navigate(`/Course-Details/${course._id}`);
@@ -65,7 +66,7 @@ function CourseCard( { course }: { course: course } ) {
         <div className="pt-2">
           <p className="text-lg font-bold text-blue-700">
             {currency}{" "}
-            {course.price - (course.discount * course.price) / 100}
+            {Number(course.price) - (course.discount * Number(course.price)) / 100}
           </p>
         </div>
       </div>
