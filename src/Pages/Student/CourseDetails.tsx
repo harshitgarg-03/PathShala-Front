@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from "react-router-dom";
-import Footer from "../../Componets/Student/Footer";
 import { useEffect, useState } from "react";
 import leftclockicon from "../../Data/time_left_clock_icon.svg";
 import clockicon from "../../Data/time_clock_icon.svg";
@@ -12,10 +11,11 @@ import { CourseStore } from "../../ZustandStore/CourseStore";
 
 function CourseDetails() {
   const course = CourseStore((s) => s.specificCourse);
-  console.log("course is ", course);
+  console.log("course is ", course?.price);
   const navigate = useNavigate();
   const isAuthenticate = useAuth((s) => s.isAuthenticate);
   const [playerData, setPlayerData] = useState<string | null>(null);
+  const [Showlecture, setShowlecture] = useState<boolean>(false);
   const isLoading = CourseStore((s) => s.isLoading);
   const FetchCourse = CourseStore((s) => s.FetchSpecificCourse);
   const { id } = useParams();
@@ -80,7 +80,7 @@ function CourseDetails() {
                 <h2 className="text-xl font-semibold mb-4">Course Structure</h2>
 
                 <div className="space-y-4">
-                  {course.section.map((chapter, i) => (
+                  {course.sections.map((chapter, i) => (
                     <div
                       key={i}
                       className="border border-gray-200 rounded-lg p-4 bg-white"
@@ -100,22 +100,33 @@ function CourseDetails() {
                         {chapter.lectures.map((lecture, idx) => (
                           <div
                             key={idx}
-                            className="flex justify-between text-sm text-gray-600 pl-2"
+                            className="flex justify-between cursor-pointer text-sm text-gray-600 pl-2"
                           >
-                            <span>▶ {lecture.title}</span>
-                            <div>
-                              <span
-                                className={`font-semibold text-blue-600 cursor-pointer`}
-                                onClick={() =>
-                                  setPlayerData(() => lecture.videoUrl)
-                                }
-                              >
-                                {" "}
-                                {lecture.isPreviewFree ? "Preview" : ""}{" "}
-                              </span>
-                              <span>{lecture.durationFormatted} hrs</span>
-                            </div>
-                            {/* {setChapterDuration(prev => prev+(lecture.lectureDuration / 60))} */}
+                            <span onClick={() => setShowlecture(!Showlecture)}>
+                              ▶ {lecture.title}
+                            </span>
+                            {/* {course.status && (
+                              <>
+                                <div>
+                                  <span
+                                    className={`font-semibold text-blue-600 cursor-pointer`}
+                                    onClick={() =>
+                                      setPlayerData(() => lecture.videoUrl)
+                                    }
+                                  >
+                                    {" "}
+                                    {lecture.isPreviewFree
+                                      ? "Preview"
+                                      : ""}{" "}
+                                  </span>
+                                  <span>{lecture.durationFormatted} hrs</span>
+                                </div>
+
+                                <div>
+                                  <span>{lecture.resourceFiles[0]}</span>
+                                </div>
+                              </>
+                            )} */}
                           </div>
                         ))}
                       </div>
@@ -196,8 +207,8 @@ overflow-hidden
                     <span className="text-3xl font-bold text-gray-900">
                       $
                       {(
-                        course.price -
-                        Number((course.discount * course.price) / 100)
+                        Number(course.price) -
+                        Number((course.discount * Number(course.price)) / 100)
                       ).toFixed(2)}
                     </span>
 
@@ -245,7 +256,7 @@ overflow-hidden
   "
                     onClick={() => {
                       if (isAuthenticate) {
-                        navigate("/");
+                        navigate("/EnrollC");
                       } else {
                         navigate("/login");
                       }
@@ -274,7 +285,7 @@ overflow-hidden
           </div>
         </div>
       )}
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
