@@ -64,7 +64,7 @@ interface SearchBarProp {
 }
 
 interface CourseDetailProp {
-  course: dummyCoursesProp;
+  course: course;
 }
 
 interface CourseStoreProp {
@@ -73,6 +73,7 @@ interface CourseStoreProp {
   specificCourse: null | course;
   isLoading: boolean;
   error: null | string;
+  UserFetchedCourse: course[] | null;
   specificSection: null | {
     _id: string;
     title: string;
@@ -93,7 +94,10 @@ interface CourseStoreProp {
     courseId: string;
   }) => Promise<boolean>;
 
+  updateCourse: (courseId: string, data: FormData) => Promise<void>;
+
   AddLecture: (Data: FormData) => Promise<[]>;
+  GetManageCourse: () => Promise<void>;
 }
 
 interface lecture {
@@ -137,6 +141,7 @@ interface course {
   language: "Hindi" | "English" | "Hinglish";
   thumbnail: string;
   instructor: {
+    _id: string;
     name: string;
     avatar?: string;
   };
@@ -147,7 +152,7 @@ interface course {
     email: string;
   }[];
 
-  price: number;
+  price: string;
   isFree: boolean;
   reviews: {
     id: string;
@@ -191,3 +196,12 @@ interface dummyCoursesProp {
   courseThumbnail: string;
 }
 [];
+
+
+interface studentStoreprop {
+  status: "error" | "success" | "ideal"  | "loading";
+  error: string | null;
+  publishedCourses: course[] | null;
+
+  getPublishedCourse: () => Promise<void>;
+};
