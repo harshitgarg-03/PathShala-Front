@@ -25,7 +25,6 @@ export default function ManageCourses() {
   const [showModal, setshowModal] = useState<boolean>(false);
   const [Thumbnail, setthumbnail] = useState<File | null>(null);
 
-  
   const CreateCourse = CourseStore((s) => s.CreateCourse);
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
