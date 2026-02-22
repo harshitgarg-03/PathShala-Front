@@ -13,6 +13,7 @@ function AddCourse() {
   const [thumbnail, setthumbnail] = useState<File | null>(null);
   const [category, setcategory] = useState<string>("");
   const [language, setlanguage] = useState<string>("Hindi");
+  const [status, setstatus] = useState<string>("Hindi");
 
   const handlecreate = () => {
     const formdata = new FormData();
@@ -23,10 +24,7 @@ function AddCourse() {
     if (thumbnail) formdata.append("thumbnail", thumbnail);
     formdata.append("category", category);
     formdata.append("language", language);
-
-    console.log("form", formdata.get("language"));
-    console.log("form", formdata.get("level"));
-
+    formdata.append("status", status);
     CreateCourse(formdata);
     navigate("/Educator/AddSection")
   };
@@ -163,6 +161,20 @@ function AddCourse() {
               <option>Hindi</option>
               <option>English</option>
               <option>Hinglish</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-lg font-medium text-gray-700 mb-2">
+              Status
+            </label>
+            <select
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              value={status}
+              onChange={(e) => setstatus(e.target.value)}
+            >
+              <option>Draft</option>
+              <option>Published</option>
+              <option>Archieved</option>
             </select>
           </div>
 
