@@ -28,6 +28,12 @@ function DashBoard() {
   }
   const ScrollRef = useRef<HTMLDivElement>(null);
 
+  const HandleSideBar = (title: string) => {
+    if(title == "Manage Courses"){
+      navigate("/Educator/Manage-Course")
+    }
+  }
+
   const scroll = (direction: "left" | "right") => {
     if (!ScrollRef.current) return;
     const scrollamount = 340;
@@ -51,9 +57,10 @@ function DashBoard() {
           <div
             key={i}
             className="flex items-center gap-4 p-3 rounded-lg cursor-pointer hover:bg-blue-50 transition"
+            onClick={() => HandleSideBar(item.title)}
           >
             <img src={item.icon} alt="" className="h-5 w-5" />
-            <h3 className="text-gray-700 font-medium">{item.title}</h3>
+            <h3 className="text-gray-700 font-medium" >{item.title}</h3>
           </div>
         ))}
       </aside>
