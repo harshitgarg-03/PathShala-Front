@@ -12,7 +12,7 @@ import rightArrow from "../../Data/chevron-right.svg";
 function DashBoard() {
   const AllCourses = CourseStore((s) => s.UserFetchedCourse);
   const FetchAllCourse = CourseStore((s) => s.GetManageCourse);
-  useEffect(() => {
+  useEffect(() => { 
     FetchAllCourse();
   }, []);
   
