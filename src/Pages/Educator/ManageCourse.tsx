@@ -60,7 +60,7 @@ export default function ManageCourses() {
     setupdateCourseId(courseId);
     setupdatestate(true);
   }; 
- 
+
   useEffect(() => {
     if (Specificcourse) {
     settitle(Specificcourse.title);
