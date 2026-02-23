@@ -59,7 +59,7 @@ export default function ManageCourses() {
     console.log("specific course", Specificcourse);
     setupdateCourseId(courseId);
     setupdatestate(true);
-  }; 
+  };  
 
   useEffect(() => {
     if (Specificcourse) {
