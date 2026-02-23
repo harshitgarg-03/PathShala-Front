@@ -10,29 +10,29 @@ import { useEffect, useRef } from "react";
 import leftArrow from "../../Data/chevron-left.svg";
 import rightArrow from "../../Data/chevron-right.svg";
 function DashBoard() {
-  const AllCourses = CourseStore((s) => s.courses);
-  const FetchAllCourse = CourseStore((s) => s.FetchAllCourse);
-  console.log("cousres are ", AllCourses);
+  const AllCourses = CourseStore((s) => s.UserFetchedCourse);
+  const FetchAllCourse = CourseStore((s) => s.GetManageCourse);
   useEffect(() => {
-    if (AllCourses == null) {
-      FetchAllCourse();
-    }
+    FetchAllCourse();
   }, []);
-
-  const HandlecreateCourse = () => {
-    navigate("/Educator/AddCourse")
-  }
   
+  const HandlecreateCourse = () => {
+    navigate("/Educator/AddCourse");
+  };
+
   const HandlecreateSection = (id: string) => {
-    navigate(`/Educator/AddSection/${id}`)
-  }
+    navigate(`/Educator/AddSection/${id}`);
+  };
   const ScrollRef = useRef<HTMLDivElement>(null);
 
   const HandleSideBar = (title: string) => {
-    if(title == "Manage Courses"){
-      navigate("/Educator/Manage-Course")
+    if (title == "Manage Courses") {
+      navigate("/Educator/Manage-Course");
     }
-  }
+    if (title == "Analytics") {
+      navigate("/Educator/Analytics");
+    }
+  };
 
   const scroll = (direction: "left" | "right") => {
     if (!ScrollRef.current) return;
@@ -60,7 +60,7 @@ function DashBoard() {
             onClick={() => HandleSideBar(item.title)}
           >
             <img src={item.icon} alt="" className="h-5 w-5" />
-            <h3 className="text-gray-700 font-medium" >{item.title}</h3>
+            <h3 className="text-gray-700 font-medium">{item.title}</h3>
           </div>
         ))}
       </aside>
@@ -131,7 +131,10 @@ function DashBoard() {
                   className="flex gap-6 overflow-x-auto scroll-smooth no-scrollbar px-10"
                 >
                   {AllCourses.map((item) => (
-                    <div className="min-w-75 shrink-0" onClick={() => HandlecreateSection(item._id)} > 
+                    <div
+                      className="min-w-75 shrink-0"
+                      onClick={() => HandlecreateSection(item._id)}
+                    >
                       <CourseCard key={item._id} course={item} />
                     </div>
                   ))}
