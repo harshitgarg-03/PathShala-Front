@@ -7,24 +7,30 @@ export default function ManageCourses() {
   function openModal() {
     setshowModal(true);
   }
-  function handleDelete(id) {}
+
+  function handleDelete(id: string) {
+    DeleteFunc(id)
+  }
+
   const ref = useRef(null);
   const filtered = CourseStore((s) => s.GetManageCourse);
   const filteredCourses = CourseStore((s) => s.UserFetchedCourse);
+  const FetchSpecificcourse = CourseStore(s => s.FetchSpecificCourse)
+  const Specificcourse = CourseStore(s => s.specificCourse);
   const UpdatingFunc = CourseStore(s => s.updateCourse)
   const [list, setlsit] = useState(false);
   const [title, settitle] = useState("");
   const [description, setdescription] = useState("");
   const [category, setcategory] = useState("");
   const [price, setprice] = useState("");
-  const [status, setstatus] = useState("");
-  const [language, setlanguage] = useState("");
-  const [level, setlevel] = useState("");
+  const [status, setstatus] = useState("Draft");
+  const [language, setlanguage] = useState("Hindi");
+  const [level, setlevel] = useState("Beginner");
   const [updatestate, setupdatestate] = useState(false);
   const [updateCourseId, setupdateCourseId] = useState("");
   const [showModal, setshowModal] = useState<boolean>(false);
   const [Thumbnail, setthumbnail] = useState<File | null>(null);
-
+  const DeleteFunc = CourseStore(s => s.DeleteCourse);
   const CreateCourse = CourseStore((s) => s.CreateCourse);
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,7 +46,7 @@ export default function ManageCourses() {
     if (Thumbnail != null) {
       FormedData.append("thumbnail", Thumbnail);
     }
-    console.log("Formed data ", FormedData);
+    console.log("Formed data ", FormedData.get("thumbnail"));
     console.log("data", list, title, description, level, status, Thumbnail, language );
     
     {updatestate ? UpdatingFunc(updateCourseId, FormedData) : CreateCourse(FormedData)}
@@ -49,9 +55,25 @@ export default function ManageCourses() {
   };
 
   const HandleUpdate = (courseId: string) => {
+    FetchSpecificcourse(courseId);
+    console.log("specific course", Specificcourse);
     setupdateCourseId(courseId);
     setupdatestate(true);
   };
+
+  useEffect(() => {
+    if (Specificcourse) {
+    settitle(Specificcourse.title);
+    setdescription(Specificcourse.description);
+    setcategory(Specificcourse.category);
+    setprice(Specificcourse.price);
+    setlevel(Specificcourse.level);
+    setlanguage(Specificcourse.language);
+    setstatus(Specificcourse.status);
+
+    // setupdatestate(true);
+  }
+  }, [Specificcourse])
 
   const closeModal = () => {
     setshowModal(false);
@@ -146,6 +168,7 @@ export default function ManageCourses() {
               hover:bg-red-50 hover:text-red-600
               cursor-pointer
               "
+              onClick={() => handleDelete(item._id)}
                       >
                         🗑 Delete
                       </li>
@@ -207,18 +230,12 @@ export default function ManageCourses() {
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Category
                     </label>
-                    <select
+                    <input
                       value={category}
                       onChange={(e) => setcategory(e.target.value)}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     >
-                      <option value="Programming">Programming</option>
-                      <option value="Design">Design</option>
-                      <option value="Business">Business</option>
-                      <option value="Marketing">Marketing</option>
-                      <option value="Data Science">Data Science</option>
-                      <option value="Other">Other</option>
-                    </select>
+                    </input>
                   </div>
 
                   <div>
