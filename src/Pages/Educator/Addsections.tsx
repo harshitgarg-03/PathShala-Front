@@ -120,7 +120,7 @@ export const InternalLecture = ({
             <div className="text-xs text-green-600">📄 PDF attached</div>
           )}
 
-
+ 
           {/* PDF input */}
           <div className="flex flex-col gap-2">
             <label className="text-sm text-gray-600">
