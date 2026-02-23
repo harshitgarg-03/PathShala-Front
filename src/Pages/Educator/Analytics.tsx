@@ -56,7 +56,7 @@ export default function Analytics() {
     totalRevenueFunc();
     setLoading(false);
   }, []);
-
+ 
   const completionRate =
     enrollments.length > 0
       ? (enrollments.filter((e) => e.completed).length / enrollments.length) *
