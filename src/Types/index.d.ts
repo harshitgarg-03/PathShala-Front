@@ -13,6 +13,9 @@ interface WrapperProp {
 
 interface ProfileProp {
   isEducator: boolean;
+  isLoading: boolean;
+  error: null | string;
+  UpdateProfile: (data: FormData) => Promise<void>
 }
 
 interface StoreProp {
@@ -33,10 +36,11 @@ interface AuthSoreProp {
   error: null | string;
   user: {
     name: string;
-    id?: string;
+    _id?: string;
     email: string;
     role?: "student" | "instructor" | "admin";
     bio?: string;
+    avatar: string;
   } | null;
 
   Register: (data: user) => void;
@@ -95,9 +99,17 @@ interface CourseStoreProp {
   }) => Promise<boolean>;
 
   updateCourse: (courseId: string, data: FormData) => Promise<void>;
-
+  DeleteCourse: (courseId: string) => Promise<void>;
   AddLecture: (Data: FormData) => Promise<[]>;
   GetManageCourse: () => Promise<void>;
+}
+
+interface AnalyticsStoreProp {
+  TotalStudents: number;
+  AvgCoursePrice: number;
+  AverageRating: number;
+  TotalIncomefromCourses: number;
+  TotalRevenue: () => void;
 }
 
 interface lecture {
@@ -196,7 +208,6 @@ interface dummyCoursesProp {
   courseThumbnail: string;
 }
 [];
-
 
 interface studentStoreprop {
   status: "error" | "success" | "ideal"  | "loading";
