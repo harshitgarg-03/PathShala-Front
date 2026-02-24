@@ -2,42 +2,84 @@ import home from "../../Data/house.svg";
 import heart from "../../Data//heart-handshake.svg";
 import currencu from "../../Data/badge-dollar-sign (1).svg";
 import book from "../../Data/my_course_icon.svg";
-import logout from "../../Data/Logout.svg";
 import plus from "../../Data/copy-plus.svg";
-
-import Footer from "../../Componets/Student/Footer";
-import { useState, type ChangeEvent } from "react";
+import Logout from "../../Data/Logout.png";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { UseProfile } from "../../ZustandStore/ProfileStore";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../ZustandStore/AuthStore";
 
 function ProfileCard() {
+  const user = useAuth((s) => s.user);
+  const [FirstName, setFirstName] = useState("");
+  const [LastName, setLastName] = useState("");
+  const [Biagrapghy, setBiagrapghy] = useState("");
+
+  const [Email, setEmail] = useState("");
+  const [Linkedin, setLinkedin] = useState("");
+
   const [isProfile, setisProfile] = useState(true);
   const [isPrivacy, setisPrivacy] = useState(false);
   const [isPicture, setisPicture] = useState(false);
+  const [avatarFile, setavatarFile] = useState<File | null>(null)
   const [preview, setpreview] = useState<null | string>(null);
-  const isEducator = UseProfile(s => s.isEducator)
+  const isEducator = UseProfile((s) => s.isEducator);
+  const logout = useAuth((s) => s.Logout);
   const location = useLocation();
-  console.log(location);
+  const navigate = useNavigate();
+
+  const updateProfile = UseProfile(s => s.UpdateProfile);
   
-  if(location.pathname.includes("Educator")){
+  
+  const handlechanges = () => {
+    const FormedData = new FormData();
+
+    
+    FormedData.append("firstname", FirstName);
+    FormedData.append("lastname", LastName);
+    FormedData.append("email", Email);
+    if(avatarFile) FormedData.append("avatar", avatarFile);
+    if (user?._id) updateProfile(FormedData)
+  }
+
+  useEffect(() => {
+    if (user) {
+      console.log("user is ", user.name);
+      
+      const [First, Last] = user?.name.split(" ");
+      console.log(First, " ", Last);
+      
+      setFirstName(First);
+      setLastName(Last);
+      setEmail(user?.email);
+      setpreview(user?.avatar);
+    }
+  }, [user]);
+
+  const HandleLogout = () => {
+    logout();
+    navigate("/");
+  };
+  if (location.pathname.includes("Educator")) {
     UseProfile.setState({
       isEducator: true,
-    })
-  }else {
+    });
+  } else {
     UseProfile.setState({
       isEducator: false,
-    })
+    });
   }
   const handlepreview = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    
+
     if (file) {
       setpreview(URL.createObjectURL(file));
+      setavatarFile(file);
     }
   };
   return (
     <div className="min-h-screen bg-sky-50 p-4 md:p-8">
-      {/* Main Container */}
+      {/* Main Container */}t
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-6">
         {/* Sidebar */}
         <div
@@ -51,15 +93,17 @@ function ProfileCard() {
           opacity-60
           "
         >
-
           {/* Menu */}
           <div className="space-y-3">
             {[
               { icon: home, label: "Dashboard" },
               { icon: book, label: "My Courses" },
-              isEducator ? {icon: plus, label: "Add Course"} : { icon: heart, label: "Wishlist" },
-              isEducator ? {icon: currencu, label: "Earnings"} : { icon: currencu, label: "My Earnings" },
-              
+              isEducator
+                ? { icon: plus, label: "Add Course" }
+                : { icon: heart, label: "Wishlist" },
+              isEducator
+                ? { icon: currencu, label: "Earnings" }
+                : { icon: currencu, label: "My Earnings" },
             ].map((item, i) => (
               <div
                 key={i}
@@ -103,8 +147,9 @@ function ProfileCard() {
               hover:bg-blue-50 hover:text-blue-700
               transition
               "
+              onClick={HandleLogout}
             >
-              <img src={logout} alt="" className="h-5" />
+              <img src={Logout} alt="logout" className="h-5" />
               <h2 className="font-medium">Logout</h2>
             </div>
           </div>
@@ -182,10 +227,30 @@ function ProfileCard() {
             >
               {/* Input Field */}
               {[
-                { label: "First Name", type: "text" },
-                { label: "Last Name", type: "text" },
-                { label: "Email", type: "email" },
-                { label: "LinkedIn", type: "text" },
+                {
+                  label: "First Name",
+                  type: "text",
+                  value: FirstName,
+                  setter: setFirstName,
+                },
+                {
+                  label: "Last Name",
+                  type: "text",
+                  value: LastName,
+                  setter: setLastName,
+                },
+                {
+                  label: "Email",
+                  type: "email",
+                  value: Email,
+                  setter: setEmail,
+                },
+                {
+                  label: "LinkedIn",
+                  type: "text",
+                  value: Linkedin,
+                  setter: setLinkedin,
+                },
               ].map((item, i) => (
                 <div key={i} className="space-y-1">
                   <h3 className="text-sm font-medium text-gray-600">
@@ -194,6 +259,9 @@ function ProfileCard() {
 
                   <input
                     type={item.type}
+                    value={item.value}
+                    onChange={(e) => item.setter(e.target.value)}
+                    placeholder={item.value == "" ? "Linkedin id..." : ""}
                     className="
                   w-full
                   px-4 py-2.5
@@ -223,6 +291,9 @@ function ProfileCard() {
                 focus:outline-none
                 focus:ring-2 focus:ring-blue-500
                 "
+                value={Biagrapghy}
+                  placeholder="Biography texts ....."
+                  onChange={(e) => setBiagrapghy(e.target.value)}
                 ></textarea>
               </div>
             </div>
@@ -317,26 +388,6 @@ function ProfileCard() {
                 Update Profile Picture
               </h2>
 
-              {/* Preview */}
-              {/* <div className="flex items-center gap-4">
-                <div
-                  className="
-        h-24 w-24
-        rounded-full
-        border-2 border-dashed border-blue-300
-        flex items-center justify-center
-        overflow-hidden
-        bg-blue-50
-        "
-                >
-                  
-                </div>
-
-                <p className="text-sm text-gray-600">
-                  Upload a clear photo for better profile visibility.
-                </p>
-              </div> */}
-
               <div
                 className="
   h-24 w-24
@@ -389,6 +440,7 @@ function ProfileCard() {
       font-medium
       transition
       "
+      onClick={handlechanges}
               >
                 Upload Picture
               </button>
@@ -407,6 +459,7 @@ function ProfileCard() {
               font-medium
               transition
               "
+              onClick={handlechanges}
               >
                 Save Changes
               </button>
@@ -414,7 +467,6 @@ function ProfileCard() {
           )}
         </div>
       </div>
-
     </div>
   );
 }
