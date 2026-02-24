@@ -1,16 +1,16 @@
-import { useStore } from "../../ZustandStore/Store";
 import CourseCard from "../../Componets/Student/CourseCard";
 import { useEffect, useState } from "react";
 import SearchBar from "../../Componets/Student/SearchBar";
 import Wrapper from "../../Componets/ReuseCompo/Wrapper";
 import { useNavigate, useParams } from "react-router-dom";
-import type { course, dummyCoursesProp } from "../../Types";
+import type { course } from "../../Types";
 import cross from "../../Data/cross_icon.svg";
 import { CourseStore } from "../../ZustandStore/CourseStore";
+import { StudentCourseStore } from "../../ZustandStore/StudentCourseStore";
 
 function CoursesList() {
-  const Courses = CourseStore((s) => s.courses);
-  const FetchCourses = CourseStore((s) => s.FetchAllCourse);
+  const Courses = StudentCourseStore((s) => s.publishedCourses);
+  const FetchCourses = StudentCourseStore(s => s.getPublishedCourse);
   const { input } = useParams();
   const navigate = useNavigate();
   const [FilterData, setFilterData] = useState<course[]>([]);
