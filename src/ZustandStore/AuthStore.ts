@@ -20,7 +20,7 @@ export const useAuth = create<AuthSoreProp>()(
           if (token) {
             set({ isAuthenticate: true });
           }
-          set({ user: res.data });
+          set({ user: res.data.data });
         } catch (error: any) {
           set({ error: error.data, isAuthenticate: false });
         }
@@ -36,7 +36,7 @@ export const useAuth = create<AuthSoreProp>()(
             email,
             password,
           });
-          set({ user: res.data, isLoading: false, error: null });
+          set({ user: res.data.data, isLoading: false, error: null });
         } catch (error: any) {
           set({ isLoading: false, error: error });
         }
@@ -50,7 +50,7 @@ export const useAuth = create<AuthSoreProp>()(
             email,
             password,
           });
-          set({ user: res.data, isLoading: false });
+          set({ user: res.data.data, isLoading: false });
         } catch (error: any) {
           set({ error: error.data, isLoading: false });
         }
