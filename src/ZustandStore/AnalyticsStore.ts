@@ -7,7 +7,7 @@ export const AnalyticsStore = create<AnalyticsStoreProp>((set, get) => ({
     TotalStudents: 0,
     AvgCoursePrice: 0,
     TotalCourse: 0, 
-    AverageRating: 0,
+    AverageRating: 0, 
     TotalRevenue : () => {
         const UserFetchedCourse = CourseStore.getState().UserFetchedCourse;
         let TotalStudentsCourse = 0;
