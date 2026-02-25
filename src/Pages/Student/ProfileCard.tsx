@@ -50,7 +50,7 @@ function ProfileCard() {
     } 
     seterrrormsg("Confirm password not matched.");
     return false;
-  }
+  } 
 
   const handleupdatepassword = () => {
     const data = {
