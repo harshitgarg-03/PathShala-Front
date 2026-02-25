@@ -42,7 +42,7 @@ function ProfileCard() {
 
     return () => clearTimeout(timer);
   }, [ConfirmPassword, NewPassword]);
-
+ 
   function isValidatePassword() {
     if (NewPassword === ConfirmPassword) {
       seterrrormsg("");
