@@ -47,7 +47,7 @@ function ProfileCard() {
     if (NewPassword === ConfirmPassword) {
       seterrrormsg("");
       return true;
-    }
+    } 
     seterrrormsg("Confirm password not matched.");
     return false;
   }
