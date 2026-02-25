@@ -30,7 +30,7 @@ export const UseProfile = create<ProfileProp>()(
         } catch (error: any) {
           set({ isLoading: false, error: error.data });
         }
-      }, 
+      },  
       
       changedpassword: async(data) => {
         set({ isLoading: true });
