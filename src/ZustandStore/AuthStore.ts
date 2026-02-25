@@ -41,7 +41,7 @@ export const useAuth = create<AuthSoreProp>()(
           set({ isLoading: false, error: error });
         }
       },
- 
+  
       Login: async (data) => {
         set({ isLoading: true, error: null });
         try {
