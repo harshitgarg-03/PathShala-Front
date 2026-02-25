@@ -31,6 +31,16 @@ export const UseProfile = create<ProfileProp>()(
           set({ isLoading: false, error: error.data });
         }
       },
+      
+      changedpassword: async(data) => {
+        set({ isLoading: true });
+        try {
+          const res = await api.post("/changed-password", data);
+          set({ isLoading: false });
+        } catch (error: any) {
+          set({ isLoading: false, error: error.data });
+        }
+      }
     }),
     {
       name: "Profile-Store",
