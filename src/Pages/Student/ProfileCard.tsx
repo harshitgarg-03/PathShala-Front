@@ -21,34 +21,62 @@ function ProfileCard() {
   const [isProfile, setisProfile] = useState(true);
   const [isPrivacy, setisPrivacy] = useState(false);
   const [isPicture, setisPicture] = useState(false);
-  const [avatarFile, setavatarFile] = useState<File | null>(null)
+  const [avatarFile, setavatarFile] = useState<File | null>(null);
   const [preview, setpreview] = useState<null | string>(null);
+  const [OldPassword, setOldPassword] = useState("");
+  const [errrormsg, seterrrormsg] = useState("");
+  const [NewPassword, setNewPassword] = useState("");
+  const [ConfirmPassword, setConfirmPassword] = useState("");
   const isEducator = UseProfile((s) => s.isEducator);
   const logout = useAuth((s) => s.Logout);
   const location = useLocation();
   const navigate = useNavigate();
 
-  const updateProfile = UseProfile(s => s.UpdateProfile);
-  
-  
+  const updateProfile = UseProfile((s) => s.UpdateProfile);
+  const updatepssword = UseProfile((s) => s.changedpassword);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const value = isValidatePassword();
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [ConfirmPassword, NewPassword]);
+
+  function isValidatePassword() {
+    if (NewPassword === ConfirmPassword) {
+      seterrrormsg("");
+      return true;
+    }
+    seterrrormsg("Confirm password not matched.");
+    return false;
+  }
+
+  const handleupdatepassword = () => {
+    const data = {
+      oldPassword: OldPassword,
+      newPassword: NewPassword,
+    };
+    updatepssword(data);
+  };
+
   const handlechanges = () => {
     const FormedData = new FormData();
 
-    
     FormedData.append("firstname", FirstName);
     FormedData.append("lastname", LastName);
     FormedData.append("email", Email);
-    if(avatarFile) FormedData.append("avatar", avatarFile);
-    if (user?._id) updateProfile(FormedData)
-  }
+    if (avatarFile) FormedData.append("avatar", avatarFile);
+    if (user?._id) updateProfile(FormedData);
+  };
 
   useEffect(() => {
     if (user) {
       console.log("user is ", user.name);
-      
+
       const [First, Last] = user?.name.split(" ");
       console.log(First, " ", Last);
-      
+
       setFirstName(First);
       setLastName(Last);
       setEmail(user?.email);
@@ -60,6 +88,7 @@ function ProfileCard() {
     logout();
     navigate("/");
   };
+
   if (location.pathname.includes("Educator")) {
     UseProfile.setState({
       isEducator: true,
@@ -69,6 +98,7 @@ function ProfileCard() {
       isEducator: false,
     });
   }
+
   const handlepreview = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
@@ -291,7 +321,7 @@ function ProfileCard() {
                 focus:outline-none
                 focus:ring-2 focus:ring-blue-500
                 "
-                value={Biagrapghy}
+                  value={Biagrapghy}
                   placeholder="Biography texts ....."
                   onChange={(e) => setBiagrapghy(e.target.value)}
                 ></textarea>
@@ -323,6 +353,8 @@ function ProfileCard() {
         focus:outline-none
         focus:ring-2 focus:ring-blue-500
         "
+                  value={OldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
                 />
               </div>
 
@@ -342,6 +374,8 @@ function ProfileCard() {
         focus:outline-none
         focus:ring-2 focus:ring-blue-500
         "
+                  value={NewPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
                 />
               </div>
 
@@ -363,8 +397,14 @@ function ProfileCard() {
         focus:outline-none
         focus:ring-2 focus:ring-blue-500
         "
+                  value={ConfirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                 />
               </div>
+
+              {errrormsg && <div>
+                <p className="text-red-600" >{errrormsg}</p>
+              </div> }
 
               {/* Update Button */}
               <button
@@ -376,6 +416,7 @@ function ProfileCard() {
       font-medium
       transition
       "
+                onClick={handleupdatepassword}
               >
                 Update Password
               </button>
@@ -440,7 +481,7 @@ function ProfileCard() {
       font-medium
       transition
       "
-      onClick={handlechanges}
+                onClick={handlechanges}
               >
                 Upload Picture
               </button>
@@ -459,7 +500,7 @@ function ProfileCard() {
               font-medium
               transition
               "
-              onClick={handlechanges}
+                onClick={handlechanges}
               >
                 Save Changes
               </button>
