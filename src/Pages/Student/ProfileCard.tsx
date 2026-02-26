@@ -8,7 +8,7 @@ import { useEffect, useState, type ChangeEvent } from "react";
 import { UseProfile } from "../../ZustandStore/ProfileStore";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../ZustandStore/AuthStore";
-          
+           
 function ProfileCard() {
   const user = useAuth((s) => s.user);
   const [FirstName, setFirstName] = useState("");
