@@ -9,78 +9,94 @@ export const useAuth = create<AuthSoreProp>()(
       isAuthenticate: false,
       isLoading: false,
       user: null,
-      isBooting: false,
+      isBooting: true,
       error: null,
 
-      
       CurrentUser: async () => {
+        set({ isBooting: true, error: null });
+
         try {
-          const res = await api.get("/get/me");
           const token = localStorage.getItem("token");
-          if (token) {
-            set({ isAuthenticate: true });
+
+          if (!token) {
+            set({ isAuthenticate: false, isBooting: false });
+            return;
           }
-          set({ user: res.data.data });
+
+          const res = await api.get("/get/me");
+
+          set({
+            user: res.data.data,
+            isAuthenticate: true,
+            isBooting: false,
+          });
         } catch (error: any) {
-          set({ error: error.data, isAuthenticate: false });
+          set({
+            error: error.response?.data?.message || "Auth failed",
+            isAuthenticate: false,
+            isBooting: false,
+          });
         }
       },
 
       Register: async (data) => {
         set({ isLoading: true, error: null });
         try {
-          const { name, email, password } = data;
-
-          const res = await api.post("/register", {
-            name,
-            email,
-            password,
-          });
+          const res = await api.post("/register", data);
           set({ user: res.data.data, isLoading: false, error: null });
         } catch (error: any) {
-          set({ isLoading: false, error: error });
+          set({
+            isLoading: false,
+            error: error?.response?.data?.message || "Register Failed",
+          });
         }
       },
-  
+
       Login: async (data) => {
         set({ isLoading: true, error: null });
         try {
-          const { email, password } = data;
-          const res = await api.post("/login", {
-            email,
-            password,
-          });
+          const res = await api.post("/login", data);
+          localStorage.setItem("token", res.data.token);
           set({ user: res.data.data, isLoading: false, isAuthenticate: true });
         } catch (error: any) {
-          set({ error: error.data, isLoading: false });
+          set({
+            error: error?.response?.data?.message || "Login Failed",
+            isLoading: false,
+          });
         }
       },
 
       Logout: async () => {
         set({ isLoading: true, error: null });
         try {
-          const res = await api.post("/logout");
-          set({ isLoading: false, error: null, isAuthenticate: false });
-
-          
+          await api.post("/logout");
+          localStorage.removeItem("token");
+          set({ isLoading: false, error: null, user: null, isAuthenticate: false });
         } catch (error: any) {
-          set({ error: error.data, isLoading: false });
+          set({
+            error: error?.response?.data?.message || "Logout Failed",
+            isLoading: false,
+          });
         }
       },
 
       handleGoogleLogin: async () => {
-        set({isAuthenticate : false});
         try {
           const res = await api.get("/google");
           window.location.href = res.data.url;
-          set({isAuthenticate : true})
         } catch (error: any) {
-          set({ error: error.data });
+          set({
+            error: error?.response?.data?.message || "Google Login Failed",
+          });
         }
       },
     }),
     {
       name: "Auth-Storage",
+      partialize: (state) => ({
+          isAuthenticate: state.isAuthenticate,
+          user: state.user,
+      }),
     },
   ),
 );
