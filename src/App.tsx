@@ -29,7 +29,7 @@ function App() {
 
   const getuser = useAuth((s) => s.CurrentUser);
   const isBooting = useAuth((s) => s.isBooting);
-
+ 
   useEffect(() => {
     getuser();
   }, []);
