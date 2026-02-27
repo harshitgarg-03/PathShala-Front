@@ -3,109 +3,134 @@ import { api } from "../lib/api";
 import type { CourseStoreProp } from "../Types";
 import { StudentCourseStore } from "./StudentCourseStore";
 import { useAuth } from "./AuthStore";
-import { useEffect } from "react";
 
 export const CourseStore = create<CourseStoreProp>((set, get) => ({
-  UserFetchedCourse : null,
   currency: "$",
+
+  UserFetchedCourse: null,
   courses: null,
   specificCourse: null,
+  specificSection: null,
+
   isLoading: false,
   error: null,
-  specificSection: null,
+
   FetchAllCourse: async () => {
-    set({ isLoading: true });
+    set({ isLoading: true, error: null });
     try {
-      const res = await api.get("/getallCourse");      
+      const res = await api.get("/getallCourse");
       set({ courses: res.data.data.course, isLoading: false });
     } catch (error: any) {
-      console.log(error);
-      set({ error: error.data, isLoading: false });
+      set({
+        error: error.response?.data?.message || "Failed to fetch courses",
+        isLoading: false,
+      });
     }
   },
 
-  FetchSpecificCourse: async (id) => {
-    set({ isLoading: true });
-    try {
-      const AllCourses = get().courses || StudentCourseStore.getState().publishedCourses;
-      console.log(AllCourses);
-      
-      if (AllCourses) {
-        const course = AllCourses.find((item) => item._id == id);
-        console.log("telling", course);
+  FetchSpecificCourse: (id) => {
+    const AllCourses =
+      get().courses || StudentCourseStore.getState().publishedCourses;
 
-        set({ specificCourse: course, isLoading: false });
-      }
-    } catch (error: any) {
-      console.log(error);
-      set({ error: error.data, isLoading: false });
-    }
+    if (!AllCourses) return;
+
+    const course = AllCourses.find((item) => item._id === id);
+
+    set({ specificCourse: course });
   },
 
-  FetchSpecificSection: async (id) => {
-    set({ isLoading: true });
-    try {
-      const SpecificCourse = await get().specificCourse;
-      const section = await SpecificCourse?.sections.filter(
-        (item) => item._id == id,
-      );
-      set({ specificSection: section![0], isLoading: false });
-    } catch (error: any) {
-      console.log(error);
-      set({ error: error.data, isLoading: false });
-    }
+  FetchSpecificSection: (id) => {
+    const course = get().specificCourse;
+
+    if (!course) return;
+
+    const section = course.sections.find((item) => item._id === id);
+
+    set({ specificSection: section });
   },
 
   CreateCourse: async (formdata) => {
-    set({ isLoading: true });
-    // console.log("form data in createccourse ", formdata.get("title"));
-    
+    set({ isLoading: true, error: null });
+
     try {
       const res = await api.post("/createCourse", formdata);
-      set({ isLoading: false, specificCourse: res.data.data });
+      set((state) => ({
+        courses: state.courses
+          ? [res.data.data, ...state.courses]
+          : [res.data.data],
+        specificCourse: res.data.data,
+        isLoading: false,
+      }));
     } catch (error: any) {
-      set({ isLoading: false, error: error.data });
+      set({
+        isLoading: false,
+        error: error.response?.data?.message || "Course creation failed",
+      });
     }
   },
- 
+
   updateCourse: async (courseId, data) => {
     set({ isLoading: true, error: null });
-    console.log("updating adta ", data.get("title"));
-    
+
     try {
       await api.put(`/updateCourse/${courseId}`, data, {
-        headers: { "Content-Type": "multipart/form-data" }
+        headers: { "Content-Type": "multipart/form-data" },
       });
-      await get().FetchAllCourse();
-      set({ isLoading: false });
+
+      const updatedCourses = get().courses?.map((course) =>
+        course._id === courseId
+          ? { ...course, ...Object.fromEntries(data) }
+          : course,
+      );
+      set({
+        courses: updatedCourses || null,
+        isLoading: false,
+      });
     } catch (error: any) {
-      set({ isLoading: false, error: error.data });
+      set({
+        isLoading: false,
+        error: error.response?.data?.message || "update Failed",
+      });
     }
   },
-  
-  DeleteCourse : async(courseId) => {
-    set({isLoading: true});
+
+  DeleteCourse: async (courseId) => {
+    set({ isLoading: true, error: null });
     try {
-      const res = await api.delete(`/deleteCourse/${courseId}`);
+      await api.delete(`/deleteCourse/${courseId}`);
+      const filteredCourses = get().courses?.filter(
+        (course) => course._id !== courseId,
+      );
+
+      set({
+        courses: filteredCourses || null,
+        isLoading: false,
+      });
     } catch (error: any) {
-      set({isLoading: false, error : error.data})
+      set({
+        isLoading: false,
+        error: error.response?.data?.message || "Delete failed",
+      });
     }
   },
 
   AddSection: async (data) => {
-    set({ isLoading: true });
+    set({ isLoading: true, error: null });
     try {
-      const res = await api.post(`/createSection/${data.courseId}`, data);
+      await api.post(`/createSection/${data.courseId}`, data);
       set({ isLoading: false });
       return true;
     } catch (error: any) {
-      set({ isLoading: false, error: error.data });
+      set({
+        isLoading: false,
+        error: error.response?.data?.message || "Section creation failed",
+      });
       return false;
     }
   },
 
   AddLecture: async (formdata) => {
-    set({ isLoading: true });
+    set({ isLoading: true, error: null });
     const courseId = formdata.get("courseId");
     const sectionId = formdata.get("sectionId");
     try {
@@ -113,26 +138,39 @@ export const CourseStore = create<CourseStoreProp>((set, get) => ({
         `/createLecture/${courseId}/${sectionId}`,
         formdata,
       );
+      set({ isLoading: false });
       return res.data;
     } catch (error: any) {
-      set({ isLoading: false, error: error.data });
+      set({
+        isLoading: false,
+        error: error.response?.data?.message || "Lecture creation failed",
+      });
     }
   },
 
   GetManageCourse: async () => {
-    set({isLoading: true})
+    set({ isLoading: true, error: null });
     const user = useAuth.getState().user;
-    const fetchallcourse = get().FetchAllCourse;
-    await fetchallcourse();
-    
-    try {
-
-      const Course = await get().courses;
-      const userCourse = Course?.filter((item) => (item.instructor._id == user?.data._id)); 
-      
-      set({UserFetchedCourse : userCourse, isLoading: false});
-    } catch (error: any) {
-      set({ isLoading: false, error: error.data });
+    if (!user) {
+      set({ isLoading: false });
+      return;
     }
-  }
+
+    try {
+      const Course = get().courses;
+      if (!Course) return;
+      const instructorCourses = Course?.filter(
+        (item) => item.instructor._id === user._id,
+      );
+
+      set({ UserFetchedCourse: instructorCourses, isLoading: false });
+    } catch (error: any) {
+      set({
+        isLoading: false,
+        error:
+          error.response?.data?.message || "Failed to fetch instructor courses",
+      });
+    }
+  },
+  
 }));
