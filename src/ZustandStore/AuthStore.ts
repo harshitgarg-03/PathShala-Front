@@ -16,13 +16,6 @@ export const useAuth = create<AuthSoreProp>()(
         set({ isBooting: true, error: null });
 
         try {
-          const token = localStorage.getItem("token");
-
-          if (!token) {
-            set({ isAuthenticate: false, isBooting: false });
-            return;
-          }
-
           const res = await api.get("/get/me");
 
           set({
@@ -44,11 +37,13 @@ export const useAuth = create<AuthSoreProp>()(
         try {
           const res = await api.post("/register", data);
           set({ user: res.data.data, isLoading: false, error: null });
+          return true;
         } catch (error: any) {
           set({
             isLoading: false,
             error: error?.response?.data?.message || "Register Failed",
           });
+          return false;
         }
       },
 
@@ -56,7 +51,7 @@ export const useAuth = create<AuthSoreProp>()(
         set({ isLoading: true, error: null });
         try {
           const res = await api.post("/login", data);
-          localStorage.setItem("token", res.data.token);
+          
           set({ user: res.data.data, isLoading: false, isAuthenticate: true });
         } catch (error: any) {
           set({
@@ -70,7 +65,6 @@ export const useAuth = create<AuthSoreProp>()(
         set({ isLoading: true, error: null });
         try {
           await api.post("/logout");
-          localStorage.removeItem("token");
           set({ isLoading: false, error: null, user: null, isAuthenticate: false });
         } catch (error: any) {
           set({
