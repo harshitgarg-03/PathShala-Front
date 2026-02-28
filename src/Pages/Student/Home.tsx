@@ -3,10 +3,7 @@ import SearchBar from "../../Componets/Student/SearchBar";
 import Companies from "../../Componets/Student/Companies";
 import CouseSection from "../../Componets/Student/CouseSection";
 import Testimonial from "../../Componets/Student/Testimonial";
-import Footer from "../../Componets/Student/Footer";
 import Wrapper from "../../Componets/ReuseCompo/Wrapper";
-import { useAuth } from "../../ZustandStore/AuthStore";
-import { useEffect } from "react";
 
 function Home() {
   
