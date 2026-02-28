@@ -16,6 +16,7 @@ interface ProfileProp {
   isLoading: boolean;
   error: null | string;
   UpdateProfile: (data: FormData) => Promise<void>
+  changedpassword: (data: {oldPassword: string, newPassword: string}) => Promise<void>
 }
 
 interface StoreProp {
@@ -43,7 +44,7 @@ interface AuthSoreProp {
     avatar: string;
   } | null;
 
-  Register: (data: user) => void;
+  Register: (data: user) => Promoise<boolean>;
   Login: (data: user) => void;
   handleGoogleLogin: () => void;
   CurrentUser: () => void;
@@ -87,9 +88,9 @@ interface CourseStoreProp {
     lectures: lecture[];
     duration: number;
   };
-  FetchSpecificSection: (id: string) => Promise<void>;
+  FetchSpecificSection: (id: string) => void;
   FetchAllCourse: () => Promise<void>;
-  FetchSpecificCourse: (id: string) => Promise<void>;
+  FetchSpecificCourse: (id: string) => void;
   CreateCourse: (formdata: FormData) => Promise<void>;
   AddSection: (Data: {
     title: string;
