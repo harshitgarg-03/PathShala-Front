@@ -29,5 +29,6 @@ export const AnalyticsStore = create<AnalyticsStoreProp>((set, get) => ({
             AvgCoursePrice: (income!/TotalCourse!),
             AverageRating: avgRating
         })
-    }
+    },
+    
 }))
