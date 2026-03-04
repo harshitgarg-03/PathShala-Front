@@ -11,6 +11,22 @@ interface WrapperProp {
   children: ReactNode;
 }
 
+interface PayStoreProp {
+  isLoading?: boolean,
+  error: null | string,
+  createOrder: (courseId: string) => Promise<void>,
+  handlePayment: (course: course) => Promise<void>,
+}
+
+interface PaymentCardProps {
+  title: string;
+  price: number;
+  discount: number;
+  isLoading?: boolean;
+  imgstring: string;
+  courseId: string;
+}
+
 interface ProfileProp {
   isEducator: boolean;
   isLoading: boolean;
@@ -73,12 +89,14 @@ interface CourseDetailProp {
 }
 
 interface CourseStoreProp {
+  specificCourseId: string | null;
   currency: string;
   courses: course[] | null;
   specificCourse: null | course;
   isLoading: boolean;
   error: null | string;
   UserFetchedCourse: course[] | null;
+  UserPurchasedCourse: any | null;
   specificSection: null | {
     _id: string;
     title: string;
@@ -103,6 +121,7 @@ interface CourseStoreProp {
   DeleteCourse: (courseId: string) => Promise<void>;
   AddLecture: (Data: FormData) => Promise<[]>;
   GetManageCourse: () => Promise<void>;
+  GetPurchaseCoures: () => Promise<void>;
 }
 
 interface AnalyticsStoreProp {
