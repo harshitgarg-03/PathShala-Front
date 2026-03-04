@@ -13,7 +13,8 @@ function CoursesList() {
 
   const { input } = useParams();
   const navigate = useNavigate();
-
+  console.log("courses", courses);
+  
   const isSpecificCourse = !!input;
 
   // 🔹 Fetch only once (store has caching)
