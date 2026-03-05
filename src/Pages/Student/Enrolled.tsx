@@ -13,7 +13,6 @@ import { useEffect, useState } from "react";
 import CourseCard from "../../Componets/Student/CourseCard";
 import type { course } from "../../Types";
 import { useNavigate } from "react-router-dom";
-import Showlectures from "./showlectures";
 
 function Enrollement() {
   const PurchaseCourse = CourseStore((s) => s.UserPurchasedCourse);
