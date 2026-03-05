@@ -10,7 +10,7 @@ function NavBar() {
   const navigate = useNavigate();
   const isAuthenticate = useAuth((s) => s.isAuthenticate);
   const logoutFunc = useAuth(s => s.Logout)
-  console.log(isAuthenticate);
+  // console.log(isAuthenticate);
 
   const handleLogout = () => {
     logoutFunc()
