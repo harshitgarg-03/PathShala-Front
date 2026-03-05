@@ -17,19 +17,21 @@ import { useNavigate } from "react-router-dom";
 function Enrollement() {
   const PurchaseCourse = CourseStore((s) => s.UserPurchasedCourse);
   const GetPurchaseCourse = CourseStore((s) => s.GetPurchaseCoures);
-  const FetchAllCourses = CourseStore((s) => s.FetchAllCourse);
-  const AllCourses = CourseStore((s) => s.courses);
+  // const FetchAllCourses = CourseStore((s) => s.FetchAllCourse);
+  // const AllCourses = CourseStore((s) => s.courses);
 
   const navigate = useNavigate();
   const [clicked, setclicked] = useState(false);
   const [headerclicked, setheaderclicked] = useState(true);
   const [AllCoursesclicked, setAllCoursesclicked] = useState(true);
-  const [specialCourse, setspecialCourse] = useState<course | null>(null);
+  const [specialCourse, setspecialCourse] = useState<course | null>(
+    null,
+  );
   const [Duration, setDuration] = useState(0);
 
   useEffect(() => {
     GetPurchaseCourse();
-    FetchAllCourses();
+    // FetchAllCourses();
   }, [GetPurchaseCourse]);
 
   const totalDuration = () => {
@@ -47,10 +49,15 @@ function Enrollement() {
     totalDuration();
   }, [specialCourse]);
 
-  const PurchaseCourseIds = new Set(PurchaseCourse);
-  const allPurchasedCoursewithContent = AllCourses?.filter((course) =>
-    PurchaseCourseIds.has(course._id),
-  );
+  console.log("purchased coreses are", PurchaseCourse);
+  useEffect(() => {
+    console.log("special coreses are", specialCourse);
+  }, [specialCourse]);
+
+  // const PurchaseCourseIds = new Set(PurchaseCourse);
+  // const allPurchasedCoursewithContent = AllCourses?.filter((course) =>
+  //   PurchaseCourseIds.has(course._id),
+  // );
 
   return (
     <div>
@@ -158,7 +165,7 @@ function Enrollement() {
                     </div>
 
                     <div className="space-y-4">
-                      {allPurchasedCoursewithContent?.map((module, idx) => (
+                      {specialCourse?.sections?.map((module, idx) => (
                         <div
                           key={module._id}
                           className="bg-white rounded-xl border border-slate-200 hover:border-blue-400 hover:shadow-md transition-all duration-300 group"
@@ -173,16 +180,14 @@ function Enrollement() {
                                 </div>
 
                                 <h3 className="text-xl font-bold text-slate-800 mb-3 group-hover:text-blue-600 transition-colors duration-300">
-                                  {module.sections[idx].title}
+                                  {module.title}
                                 </h3>
 
                                 <div className="flex flex-wrap gap-4 text-sm text-slate-600">
                                   <div className="flex items-center">
                                     <BookOpen className="w-4 h-4 mr-2 text-blue-500" />
                                     <span>
-                                      {module.sections.map(
-                                        (item) => item.lectures.length,
-                                      )}{" "}
+                                      {module.lectures?.length}
                                       lessons
                                     </span>
                                   </div>
@@ -193,10 +198,16 @@ function Enrollement() {
                                 </div>
                               </div>
 
-                              <button onClick={() =>{ 
-                                navigate("/My-Enroll/Section", {state: {section: module.sections}});
-                              }} 
-                              className="ml-4 bg-linear-to-r cursor-pointer from-blue-600 to-green-500 hover:from-blue-700 hover:to-green-600 text-white px-6 py-3 rounded-lg font-semibold flex items-center transition-all duration-300 hover:shadow-lg hover:scale-105">
+                              <button
+                                onClick={() => {
+                                  // console.log("module is ", module);
+                                  
+                                  navigate("/My-Enroll/Section", {
+                                    state: { section: module },
+                                  });
+                                }}
+                                className="ml-4 bg-linear-to-r cursor-pointer from-blue-600 to-green-500 hover:from-blue-700 hover:to-green-600 text-white px-6 py-3 rounded-lg font-semibold flex items-center transition-all duration-300 hover:shadow-lg hover:scale-105"
+                              >
                                 <Play className="w-5 h-5 mr-2" />
                                 Start
                               </button>
@@ -238,13 +249,15 @@ function Enrollement() {
               {/* COURSES GRID */}
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 mt-10 px-4 sm:px-6 md:px-8 mb-10">
                 {AllCoursesclicked &&
-                  allPurchasedCoursewithContent?.map((course) => (
+                  PurchaseCourse?.map((course) => (
                     <div
                       key={course._id}
                       onClick={() => {
                         setclicked(!clicked);
                         setAllCoursesclicked(!AllCoursesclicked);
                         setheaderclicked(!headerclicked);
+                        console.log("Hello: ", course);
+                        
                         setspecialCourse(course);
                       }}
                     >
