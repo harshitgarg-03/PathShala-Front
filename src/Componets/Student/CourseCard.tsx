@@ -6,10 +6,14 @@ import { CourseStore } from "../../ZustandStore/CourseStore.ts";
 function CourseCard( { course }: { course: course } ) {
   const currency = CourseStore((s) => s.currency);
   const navigate = useNavigate();
-  console.log("PRICE ", typeof course.discount);
+  
+  const url = window.location.href
+  const urlword = url.split("/").pop();
   
   const HandlecourseCard = () => {
-    navigate(`/Course-Details/${course._id}`);
+    if(urlword != "My-Enroll"){
+      navigate(`/Course-Details/${course._id}`);
+    }
   };
 
   return (
@@ -49,7 +53,7 @@ function CourseCard( { course }: { course: course } ) {
               <img
                 key={i}
                 src={
-                  i < Math.floor(course.averageRating)
+                  i < Math.floor(course.averageRating!)
                     ? assets.star
                     : assets.star_blank
                 }
@@ -59,14 +63,14 @@ function CourseCard( { course }: { course: course } ) {
             ))}
           </div>
 
-          <p className="text-gray-500 ml-1">{course.reviews.length}</p>
+          <p className="text-gray-500 ml-1">{course?.reviews?.length}</p>
         </div>
 
         {/* Price */}
         <div className="pt-2">
           <p className="text-lg font-bold text-blue-700">
             {currency}{" "}
-            {Number(course.price) - (course.discount * Number(course.price)) / 100}
+            {Number(course.price) - (course.discount! * Number(course.price)) / 100}
           </p>
         </div>
       </div>
