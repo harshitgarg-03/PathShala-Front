@@ -1,23 +1,64 @@
-import { useLocation } from "react-router-dom"
+import { useLocation } from "react-router-dom";
 import type { lecture } from "../../Types";
+import { Play, Clock, CheckCircle } from "lucide-react";
+import { useState } from "react";
 
 function Showlectures() {
-    const location = useLocation();
-    const module = location?.state?.section
-    console.log("module lecture is ", module[0].lectures);
-    
-    
+  const location = useLocation();
+  const module = location?.state?.section;
+
+  const [activeLecture, setActiveLecture] = useState<string | null>(null);
+
   return (
-    <div>
-        {module[0].lectures.map((item: lecture) => (
-          <div>
-            {item.title}
+    <div className="max-w-4xl mx-auto mt-10 px-4">
+      <h2 className="text-3xl font-bold mb-6 text-slate-800">
+        Lessons
+      </h2>
+
+      <div className="space-y-4">
+        {module[0].lectures.map((item: lecture, index: number) => (
+          <div
+            key={item._id}
+            onClick={() => setActiveLecture(item._id)}
+            className={`group flex items-center justify-between bg-white border rounded-xl p-5 cursor-pointer transition-all duration-300 
+            hover:border-blue-400 hover:shadow-lg
+            ${activeLecture === item._id ? "border-blue-500 shadow-md" : "border-slate-200"}
+            `}
+          >
+            {/* LEFT */}
+            <div className="flex items-center gap-4">
+              <div className="bg-blue-100 text-blue-700 w-10 h-10 flex items-center justify-center rounded-lg font-semibold">
+                {index + 1}
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-slate-800 group-hover:text-blue-600 transition">
+                  {item.title}
+                </h3>
+
+                <div className="flex items-center text-sm text-slate-500 mt-1">
+                  <Clock className="w-4 h-4 mr-1 text-green-500" />
+                  <span>{item.duration || "5 min"}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT */}
+            <div className="flex items-center gap-3">
+              {activeLecture === item._id && (
+                <CheckCircle className="text-green-500 w-5 h-5" />
+              )}
+
+              <button className="flex items-center gap-2 bg-linear-to-r from-blue-600 to-green-500 text-white px-4 py-2 rounded-lg font-medium hover:shadow-lg transition">
+                <Play className="w-4 h-4" />
+                Play
+              </button>
+            </div>
           </div>
         ))}
-        
-        
+      </div>
     </div>
-  )
+  );
 }
 
-export default Showlectures
+export default Showlectures;
