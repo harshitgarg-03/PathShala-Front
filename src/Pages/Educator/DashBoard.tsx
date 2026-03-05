@@ -15,6 +15,8 @@ function DashBoard() {
   useEffect(() => {
     FetchAllCourse();
   }, []);
+  console.log("all courses", AllCourses);
+  
   
   const HandlecreateCourse = () => {
     navigate("/Educator/AddCourse");
