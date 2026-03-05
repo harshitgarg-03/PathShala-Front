@@ -96,7 +96,7 @@ interface CourseStoreProp {
   isLoading: boolean;
   error: null | string;
   UserFetchedCourse: course[] | null;
-  UserPurchasedCourse: any | null;
+  UserPurchasedCourse:  course[] | null;
   specificSection: null | {
     _id: string;
     title: string;
@@ -136,63 +136,63 @@ interface lecture {
   _id: string;
   title: string;
   description: string;
-  videoUrl: string;
-  videoPublicId: string;
-  duration: number;
-  durationFormatted: string;
-  thumbnail: string;
-  thumbnailPublicId: string;
-  isPreviewFree: boolean;
-  courseId: string;
-  sectionId: string;
-  resourceFiles: string[]; // PDFs, notes, etc.
-  captions: string; // subtitle file
-  transcript: string;
-  views: number;
-  order: number;
+  videoUrl?: string;
+  videoPublicId?: string;
+  duration?: number;
+  durationFormatted?: string;
+  thumbnail?: string;
+  thumbnailPublicId?: string;
+  isPreviewFree?: boolean;
+  courseId?: string;
+  sectionId?: string;
+  resourceFiles?: string[]; // PDFs, notes, etc.
+  captions?: string; // subtitle file
+  transcript?: string;
+  views?: number;
+  order?: number;
 }
 
 interface section {
   _id: string;
   title: string;
   description: string;
-  order: string;
-  courseId: string;
-  lectures: lecture[];
-  duration: number;
+  order?: string;
+  courseId?: string;
+  lectures?: lecture[];
+  duration?: number;
 }
 
 interface course {
   _id: string;
   title: string;
   slug?: string;
-  discount: number;
+  discount?: number;
   description: string;
-  category: string;
-  level: "Beginner" | "Intermediate" | "Advanced";
-  language: "Hindi" | "English" | "Hinglish";
-  thumbnail: string;
-  instructor: {
+  category?: string;
+  level?: "Beginner" | "Intermediate" | "Advanced";
+  language?: "Hindi" | "English" | "Hinglish";
+  thumbnail?: string;
+  instructor?: {
     _id: string;
     name: string;
     avatar?: string;
   };
-  sections: section[];
+  sections?: section[];
 
-  enrollStudents: {
+  enrollStudents?: {
     name: string;
     email: string;
   }[];
 
   price: string;
-  isFree: boolean;
-  reviews: {
+  isFree?: boolean;
+  reviews?: {
     id: string;
   }[];
-  averageRating: number;
-  status: "Draft" | "Published" | "Archived";
-  publishedAt: date;
-  lastUpdated: date;
+  averageRating?: number;
+  status?: "Draft" | "Published" | "Archived";
+  publishedAt?: date;
+  lastUpdated?: date;
 }
 
 interface dummyCoursesProp {
