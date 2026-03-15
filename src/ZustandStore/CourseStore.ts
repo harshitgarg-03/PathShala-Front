@@ -6,8 +6,9 @@ import { useAuth } from "./AuthStore";
 
 export const CourseStore = create<CourseStoreProp>((set, get) => ({
   currency: "$",
-
+  specificCourseId: null,
   UserFetchedCourse: null,
+  UserPurchasedCourse: null,
   courses: null,
   specificCourse: null,
   specificSection: null,
@@ -36,7 +37,7 @@ export const CourseStore = create<CourseStoreProp>((set, get) => ({
 
     const course = AllCourses.find((item) => item._id === id);
 
-    set({ specificCourse: course });
+    set({ specificCourse: course, specificCourseId: id });
   },
 
   FetchSpecificSection: (id) => {
@@ -151,6 +152,7 @@ export const CourseStore = create<CourseStoreProp>((set, get) => ({
   GetManageCourse: async () => {
     set({ isLoading: true, error: null });
     const user = useAuth.getState().user;
+    
     if (!user) {
       set({ isLoading: false });
       return;
@@ -158,6 +160,10 @@ export const CourseStore = create<CourseStoreProp>((set, get) => ({
 
     try {
       const Course = get().courses;
+      const FetchCourse = get().FetchAllCourse;
+      await FetchCourse();
+      console.log("mabagr courses are ", Course);
+      
       if (!Course) return;
       const instructorCourses = Course?.filter(
         (item) => item.instructor._id === user._id,
@@ -173,4 +179,27 @@ export const CourseStore = create<CourseStoreProp>((set, get) => ({
     }
   },
   
+  GetPurchaseCoures: async () => {
+    set({ isLoading: true, error: null });
+    const user = useAuth.getState().user;
+    if (!user) {
+      set({ isLoading: false });
+      return;
+    }
+    try {
+      const res = await api.get("/getPurchasedCourse");
+      console.log("res data from getpurchase is", res.data.data);
+      
+    const allcourse = res.data.data.map((item) => item.course)
+      console.log("all course id", allcourse);
+      
+      set({ UserPurchasedCourse: allcourse, isLoading: false });
+    } catch (error: any) {
+      set({
+        isLoading: false,
+        error:
+          error.response?.data?.message || "Failed to fetch Puchased courses",
+      });
+    }
+  }
 }));
