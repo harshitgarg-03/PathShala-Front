@@ -23,13 +23,18 @@ import Enrolled from "./Pages/Student/Enrolled";
 import ManageCourses from "./Pages/Educator/ManageCourse";
 import Analytics from "./Pages/Educator/Analytics";
 import ProtectedRoute from "./Componets/ProtectedRoute";
+import PaymentSuccess from "./Pages/Student/SuccessPayment";
+import PaymentFailed from "./Pages/Student/FaliedPayment";
+import { CourseStore } from "./ZustandStore/CourseStore";
+import Enrollement from "./Pages/Student/Enrolled";
+import Showlectures from "./Pages/Student/showlectures";
 
 function App() {
   const isEducatorPage = useMatch("/Educator/*");
 
   const getuser = useAuth((s) => s.CurrentUser);
   const isBooting = useAuth((s) => s.isBooting);
- 
+
   useEffect(() => {
     getuser();
   }, []);
@@ -53,7 +58,15 @@ function App() {
           path="/My-Enroll"
           element={
             <ProtectedRoute role="student">
-              <MyEnrollment />
+              <Enrollement />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/My-Enroll/Section"
+          element={
+            <ProtectedRoute role="student">
+              <Showlectures/>
             </ProtectedRoute>
           }
         />
@@ -85,11 +98,28 @@ function App() {
           }
         />
 
+        <Route
+          path="/success"
+          element={
+            <ProtectedRoute role="student">
+              <PaymentSuccess />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cancel"
+          element={
+            <ProtectedRoute role="student">
+              <PaymentFailed />
+            </ProtectedRoute>
+          }
+        />
+
         {/*  Educator Protected Layout */}
         <Route
           path="/Educator"
           element={
-            <ProtectedRoute role="educator">
+            <ProtectedRoute role="student">
               <Educator />
             </ProtectedRoute>
           }
