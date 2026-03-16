@@ -9,21 +9,26 @@ import { useEffect, useState } from "react";
 import Loading from "../../Componets/Student/Loading";
 import { CourseStore } from "../../ZustandStore/CourseStore";
 import PaymentCard from "./Payment.tsx";
+import { StudentCourseStore } from "../../ZustandStore/StudentCourseStore.ts";
 
 function CourseDetails() {
   const course = CourseStore((s) => s.specificCourse);
   const navigate = useNavigate();
-  // const isAuthenticate = useAuth((s) => s.isAuthenticate);
   const [Showlecture, setShowlecture] = useState<boolean>(false);
   const isLoading = CourseStore((s) => s.isLoading);
   const FetchCourse = CourseStore((s) => s.FetchSpecificCourse);
+  const publishedCourses = StudentCourseStore(s => s.publishedCourses);
+
   const { id } = useParams();
   
   useEffect(() => {
     if (!id) return;
     FetchCourse(id);
-  }, [id]);
+  }, [id, publishedCourses]);
+  console.log("loading is", isLoading);
+  
   if (isLoading) {
+    console.log("loading is hello ");
     return <Loading />;
   }
 
@@ -151,7 +156,7 @@ function CourseDetails() {
 
             {/* Right Payment Card */}
             
-            <PaymentCard title={course.title} price={Number(course.price)} courseId={id!} imgstring={course.thumbnail} discount={Number(course.discount)} />
+            <PaymentCard title={course.title} price={Number(course.price)} courseId={id!} imgstring={course.thumbnail!} discount={Number(course.discount)} />
 
           </div>
         </div>
