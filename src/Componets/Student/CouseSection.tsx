@@ -1,20 +1,19 @@
-// import type { dummyCoursesProp } from "../../Types";
 import { Link } from "react-router-dom";
-import type { course, dummyCoursesProp } from "../../Types";
-import { useStore } from "../../ZustandStore/Store";
+import type { course } from "../../Types";
 import CourseCard from "./CourseCard";
 import { useEffect } from "react";
-import { CourseStore } from "../../ZustandStore/CourseStore";
 import { StudentCourseStore } from "../../ZustandStore/StudentCourseStore";
 
 function CouseSection() {
   const Fetchcourses = StudentCourseStore((s) => s.getPublishedCourse);
   const dummycourses = StudentCourseStore((s) => s.publishedCourses);
-  
-    useEffect(() => {
-      Fetchcourses();
-    }, []);
-  
+
+  useEffect(() => {
+    const fetchfata = async () => {
+      await Fetchcourses();
+    };
+    fetchfata();
+  }, [Fetchcourses]);
   return (
     <div className="mt-24 px-4 sm:px-6 lg:px-8">
       {/* Heading */}
@@ -29,15 +28,16 @@ function CouseSection() {
           deliver results.
         </p>
       </div>
-    <div className="text-right w-full mt-8">
-<Link
-        to="/Course-List"
-        className="text-blue-700 font-normal text-lg hover:text-blue-400 transition-colors duration-300"
-      >
-        View All →
-      </Link>
-    </div>
-      
+      <div className="text-right w-full mt-8">
+        {dummycourses && (
+          <Link
+            to="/Course-List"
+            className="text-blue-700 font-normal text-lg hover:text-blue-400 transition-colors duration-300"
+          >
+            View All →
+          </Link>
+        )}
+      </div>
 
       {/* Cards Grid */}
       <div
@@ -49,7 +49,6 @@ function CouseSection() {
   gap-6 sm:gap-8
   mt-4"
       >
-            
         {dummycourses
           ? dummycourses
               // .slice(0, 4)
