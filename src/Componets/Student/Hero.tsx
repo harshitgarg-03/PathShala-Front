@@ -38,7 +38,7 @@ function Hero() {
     className="flex flex-col sm:flex-row items-center
     gap-4 mt-3 sm:mt-5
     justify-center md:justify-start"
-  >         
+  >          
     <div onClick={() => navigate("/Course-List")} >
     <Button
       title="Explore Courses"
