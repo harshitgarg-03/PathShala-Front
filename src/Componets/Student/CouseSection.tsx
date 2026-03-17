@@ -7,7 +7,7 @@ import { StudentCourseStore } from "../../ZustandStore/StudentCourseStore";
 function CouseSection() {
   const Fetchcourses = StudentCourseStore((s) => s.getPublishedCourse);
   const dummycourses = StudentCourseStore((s) => s.publishedCourses);
- 
+  
   useEffect(() => {
     const fetchfata = async () => {
       await Fetchcourses();
