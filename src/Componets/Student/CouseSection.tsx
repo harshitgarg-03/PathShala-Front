@@ -3,7 +3,7 @@ import type { course } from "../../Types";
 import CourseCard from "./CourseCard";
 import { useEffect } from "react";
 import { StudentCourseStore } from "../../ZustandStore/StudentCourseStore";
-
+ 
 function CouseSection() {
   const Fetchcourses = StudentCourseStore((s) => s.getPublishedCourse);
   const dummycourses = StudentCourseStore((s) => s.publishedCourses);
