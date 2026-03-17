@@ -2,7 +2,9 @@ import React from "react";
 import Heroimg from "../../Data/Hero.png";
 import Button from "../ReuseCompo/Button";
 import "../../index.css";
+import { useNavigate } from "react-router-dom";
 function Hero() {
+  const navigate = useNavigate();
   return (
     <div
       className={`flex flex-col md:flex-row h-auto md:h-120 lg:h-130
@@ -37,15 +39,19 @@ function Hero() {
     gap-4 mt-3 sm:mt-5
     justify-center md:justify-start"
   >
+    <div onClick={() => navigate("/Course-List")} >
     <Button
       title="Explore Courses"
       classname="bg-green-500 font-semibold text-base sm:text-lg w-40 sm:w-44 md:w-48 font-sans text-white"
     />
+    </div>
 
+    <div onClick={() => navigate("/signup")} >
     <Button
       title="Get Started"
       classname="bg-blue-800 font-semibold w-40 sm:w-44 md:w-48 font-sans text-white"
     />
+    </div>
   </div>
 </div>
 
