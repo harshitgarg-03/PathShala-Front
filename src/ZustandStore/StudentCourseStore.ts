@@ -17,7 +17,7 @@ export const StudentCourseStore = create<studentStoreprop>((set, get) => ({
 
     try {
       const res = await api.get("/get-published-courses");
-
+      
       set({
         publishedCourses: res.data.data.course,
         status: "success",

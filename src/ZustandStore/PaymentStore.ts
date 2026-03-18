@@ -24,7 +24,7 @@ export const PayStore = create<PayStoreProp>((set, get) => ({
     try {
       const res = await api.post("/create-order", { course });
       window.location.href = res.data.url;
-      set({ isLoading: true, error: null });
+      set({ isLoading: true, error: null,  });
     } catch (error: any) {
       set({
         isLoading: false,

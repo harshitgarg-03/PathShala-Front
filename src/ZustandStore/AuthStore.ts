@@ -13,7 +13,7 @@ export const useAuth = create<AuthSoreProp>()(
       error: null,
 
       CurrentUser: async () => {
-        set({ isBooting: true, error: null });
+        set({ isBooting: true });
 
         try {
           const res = await api.get("/get/me");
@@ -25,7 +25,7 @@ export const useAuth = create<AuthSoreProp>()(
           });
         } catch (error: any) {
           set({
-            error: error.response?.data?.message || "Auth failed",
+            // error: error.response?.data?.message || "Auth failed",
             isAuthenticate: false,
             isBooting: false,
           });
