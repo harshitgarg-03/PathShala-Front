@@ -8,7 +8,7 @@ import { useEffect, useState, type ChangeEvent } from "react";
 import { UseProfile } from "../../ZustandStore/ProfileStore";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../ZustandStore/AuthStore";
-           
+
 function ProfileCard() {
   const user = useAuth((s) => s.user);
   const [FirstName, setFirstName] = useState("");
@@ -42,15 +42,15 @@ function ProfileCard() {
 
     return () => clearTimeout(timer);
   }, [ConfirmPassword, NewPassword]);
- 
+
   function isValidatePassword() {
     if (NewPassword === ConfirmPassword) {
       seterrrormsg("");
       return true;
-    } 
+    }
     seterrrormsg("Confirm password not matched.");
     return false;
-  } 
+  }
 
   const handleupdatepassword = () => {
     const data = {
@@ -72,10 +72,10 @@ function ProfileCard() {
 
   useEffect(() => {
     if (user) {
-      console.log("user is ", user.name);
+      // console.log("user is ", user.name);
 
       const [First, Last] = user?.name.split(" ");
-      console.log(First, " ", Last);
+      // console.log(First, " ", Last);
 
       setFirstName(First);
       setLastName(Last);
@@ -148,7 +148,14 @@ function ProfileCard() {
                 "
               >
                 <img src={item.icon} alt="" className="h-5" />
-                <h2 className="font-medium">{item.label}</h2>
+                <h2
+                  onClick={() =>
+                    item.label == "My Courses" ? navigate("/My-Enroll") : ""
+                  }
+                  className="font-medium"
+                >
+                  {item.label}
+                </h2>
               </div>
             ))}
 
@@ -402,9 +409,11 @@ function ProfileCard() {
                 />
               </div>
 
-              {errrormsg && <div>
-                <p className="text-red-600" >{errrormsg}</p>
-              </div> }
+              {errrormsg && (
+                <div>
+                  <p className="text-red-600">{errrormsg}</p>
+                </div>
+              )}
 
               {/* Update Button */}
               <button

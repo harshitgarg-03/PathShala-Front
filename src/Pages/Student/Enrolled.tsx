@@ -21,22 +21,24 @@ function Enrollement() {
   // const AllCourses = CourseStore((s) => s.courses);
 
   const navigate = useNavigate();
-  const [clicked, setclicked] = useState(false);
   const [headerclicked, setheaderclicked] = useState(true);
   const [AllCoursesclicked, setAllCoursesclicked] = useState(true);
-  const [specialCourse, setspecialCourse] = useState<course | null>(
-    null,
-  );
+  const [clicked, setclicked] = useState(false);
+  const [specialCourse, setspecialCourse] = useState<course | null>(null);
   const [Duration, setDuration] = useState(0);
 
   useEffect(() => {
-    GetPurchaseCourse();
+    const allcourse = async () => {
+      await GetPurchaseCourse();
+      console.log("purcgasede courses are ");
+    };
+    allcourse();
     // FetchAllCourses();
   }, [GetPurchaseCourse]);
 
   const totalDuration = () => {
-    specialCourse?.sections.map((item) =>
-      item.lectures.reduce((acc, sum) => {
+    specialCourse?.sections?.map((item) =>
+      item.lectures?.reduce((acc, sum) => {
         const value = (Number(acc) + Number(sum.duration)) * 0.000277778;
         setDuration(Number(value.toFixed(2)));
         return value;
@@ -104,8 +106,8 @@ function Enrollement() {
                         </div>
                         <h3 className="ml-3 text-lg font-semibold text-slate-800">
                           {
-                            specialCourse?.sections.map((item) =>
-                              item.lectures.filter(
+                            specialCourse?.sections?.map((item) =>
+                              item.lectures?.filter(
                                 (itemlecture) => itemlecture.videoUrl,
                               ),
                             ).length
@@ -123,8 +125,7 @@ function Enrollement() {
                           <Clock className="w-6 h-6 text-white" />
                         </div>
                         <h3 className="ml-3 text-lg font-semibold text-slate-800">
-                          {/* {totalDuration()} */}
-                          {Duration}
+                          {specialCourse?.duration || 0} hrs
                         </h3>
                       </div>
                       <p className="text-slate-600">Comprehensive curriculum</p>
@@ -201,7 +202,7 @@ function Enrollement() {
                               <button
                                 onClick={() => {
                                   // console.log("module is ", module);
-                                  
+
                                   navigate("/My-Enroll/Section", {
                                     state: { section: module },
                                   });
@@ -257,7 +258,7 @@ function Enrollement() {
                         setAllCoursesclicked(!AllCoursesclicked);
                         setheaderclicked(!headerclicked);
                         console.log("Hello: ", course);
-                        
+
                         setspecialCourse(course);
                       }}
                     >

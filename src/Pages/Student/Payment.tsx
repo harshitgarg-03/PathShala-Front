@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import type { PaymentCardProps } from "../../Types";
 import { CourseStore } from "../../ZustandStore/CourseStore";
 import { PayStore } from "../../ZustandStore/PaymentStore";
+import { useAuth } from "../../ZustandStore/AuthStore";
+import { useNavigate } from "react-router-dom";
 
 function PaymentCard({
   title,
@@ -10,11 +12,14 @@ function PaymentCard({
   isLoading,
   imgstring,
   courseId,
+  isEnroll,
 }: PaymentCardProps) {
   const fetchSpecificCourse = CourseStore((s) => s.FetchSpecificCourse);
   const specificCourse = CourseStore((s) => s.specificCourse);
   const finalPrice = (price - (discount * price) / 100).toFixed(2);
   const PayFunction = PayStore((s) => s.handlePayment);
+  const isAuthenticate = useAuth((s) => s.isAuthenticate);
+  const navigate = useNavigate();
   useEffect(() => {
     fetchSpecificCourse(courseId);
   }, [courseId]);
@@ -51,10 +56,22 @@ function PaymentCard({
 
       {/* Pay Button */}
       <button
-        onClick={onPay}
-        className="w-full bg-blue-700 hover:bg-blue-800 cursor-pointer text-white py-2.5 rounded-xl font-medium transition"
+        onClick={() => (isAuthenticate ? onPay() : navigate("/signup"))}
+        disabled={isEnroll}
+        className={`w-full text-white py-2.5 rounded-xl font-medium transition
+  ${
+    isEnroll || isLoading
+      ? "bg-gray-400 cursor-not-allowed"
+      : "bg-blue-600 hover:bg-blue-700 cursor-pointer"
+  }`}
       >
-        {isLoading ? "Processing..." : "Pay Now"}
+        <div>
+          {isLoading
+            ? "Processing..."
+            : isEnroll
+              ? "Already Enrolled"
+              : "Pay Now"}
+        </div>
       </button>
 
       {/* Features */}

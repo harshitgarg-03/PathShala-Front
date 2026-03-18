@@ -108,7 +108,7 @@ function Login() {
           className="w-full flex items-center justify-center gap-2
           bg-blue-700 hover:bg-white hover:text-blue-700
           disabled:bg-blue-400 disabled:cursor-not-allowed
-          text-white py-2.5 rounded-lg font-medium transition-all duration-300"
+          text-white py-2.5 rounded-lg font-medium transition-all cursor-pointer duration-300"
         >
           {isLoading ? (
             <>

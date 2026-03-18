@@ -33,6 +33,7 @@ function SignUp() {
   // 🔹 Redirect if already logged in
   useEffect(() => {
     if (isAuthenticate) {
+      console.log("hello is ", isAuthenticate);
       navigate("/");
     }
   }, [isAuthenticate, navigate]);
@@ -110,7 +111,7 @@ function SignUp() {
           className="w-full flex items-center justify-center gap-2
           bg-green-500 hover:bg-white hover:text-green-500
           disabled:bg-green-300 disabled:cursor-not-allowed
-          text-white py-2.5 rounded-lg font-medium transition-all duration-300"
+          text-white py-2.5 rounded-lg font-medium transition-all cursor-pointer duration-300"
         >
           {isLoading ? (
             <>
@@ -149,7 +150,7 @@ function SignUp() {
           <img
             src="https://www.svgrepo.com/show/475656/google-color.svg"
             alt="google"
-            className="h-5 w-5"
+            className="h-5 w-5 cursor-pointer"
           />
           Continue with Google
         </button>
