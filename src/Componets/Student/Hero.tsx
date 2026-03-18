@@ -3,7 +3,10 @@ import Heroimg from "../../Data/Hero.png";
 import Button from "../ReuseCompo/Button";
 import "../../index.css";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../ZustandStore/AuthStore";
 function Hero() {
+  
+  const isAuthentic = useAuth(s => s.isAuthenticate);
   const navigate = useNavigate();
   return (
     <div
@@ -46,7 +49,7 @@ function Hero() {
     />
     </div>
 
-    <div onClick={() => navigate("/signup")} >
+    <div onClick={() => {isAuthentic ? navigate("/") : navigate("/signup")}} >
     <Button
       title="Get Started"
       classname="bg-blue-800 font-semibold w-40 sm:w-44 md:w-48 font-sans text-white"
