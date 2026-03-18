@@ -1,4 +1,3 @@
-import React from "react";
 import Heroimg from "../../Data/Hero.png";
 import Button from "../ReuseCompo/Button";
 import "../../index.css";
