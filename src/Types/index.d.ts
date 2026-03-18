@@ -99,7 +99,7 @@ interface CourseStoreProp {
   UserFetchedCourse: course[] | null;
   UserPurchasedCourse:  course[] | null;
   enrollCourse: string | null;
-  specificSection: null | {
+  specificSection: section | null | {
     _id: string;
     title: string;
     description: string;
