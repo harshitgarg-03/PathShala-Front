@@ -28,15 +28,18 @@ import PaymentFailed from "./Pages/Student/FaliedPayment";
 import { CourseStore } from "./ZustandStore/CourseStore";
 import Enrollement from "./Pages/Student/Enrolled";
 import Showlectures from "./Pages/Student/showlectures";
+import { StudentCourseStore } from "./ZustandStore/StudentCourseStore";
 
 function App() {
   const isEducatorPage = useMatch("/Educator/*");
 
   const getuser = useAuth((s) => s.CurrentUser);
   const isBooting = useAuth((s) => s.isBooting);
+  const fetchPublishedCourses = StudentCourseStore(s => s.getPublishedCourse);
 
   useEffect(() => {
     getuser();
+    fetchPublishedCourses();
   }, []);
 
   if (isBooting) return <Loading />;
