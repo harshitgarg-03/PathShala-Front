@@ -2,20 +2,19 @@ import logonew from "../../Data/Logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../ZustandStore/AuthStore";
 import Button from "../ReuseCompo/Button";
-import Logout from '../../Data/log-out.png';
 import usericon from '../../Data/user_icon.svg'
 
 function NavBar() {
   const isCourlistpage = location.pathname.includes("/Course-List");
   const navigate = useNavigate();
   const isAuthenticate = useAuth((s) => s.isAuthenticate);
-  const logoutFunc = useAuth(s => s.Logout)
+  // const logoutFunc = useAuth(s => s.Logout)
   // console.log(isAuthenticate);
 
-  const handleLogout = () => {
-    logoutFunc()
-    navigate("/")
-  }
+  // const handleLogout = () => {
+  //   logoutFunc()
+  //   navigate("/")
+  // }
   return (
     <div
       className={`flex h-16 md:h-20 mx-auto px-3 sm:px-4 md:px-6 lg:px-8 
