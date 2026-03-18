@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { api } from "../lib/api";
-import type { course, CourseStoreProp } from "../Types";
+import type { CourseStoreProp } from "../Types";
 import { StudentCourseStore } from "./StudentCourseStore";
 import { useAuth } from "./AuthStore";
 
@@ -46,8 +46,8 @@ export const CourseStore = create<CourseStoreProp>((set, get) => ({
     if (!course) return;
 
     const section = course.sections?.find((item) => item._id === id);
-
-    set({ specificSection: section });
+    
+    if(section) set({ specificSection: section });
   },
 
   CreateCourse: async (formdata) => {
@@ -190,7 +190,7 @@ export const CourseStore = create<CourseStoreProp>((set, get) => ({
       const res = await api.get("/getPurchasedCourse");
       console.log("res data from getpurchase is", res.data.data);
 
-      const allcourse = res.data.data.map((item) => item.course);
+      const allcourse = res.data.data.map((item: any) => item.course);
       console.log("all course id", allcourse);
 
       set({ UserPurchasedCourse: allcourse, isLoading: false });
