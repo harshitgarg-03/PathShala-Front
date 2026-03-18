@@ -25,6 +25,7 @@ interface PaymentCardProps {
   isLoading?: boolean;
   imgstring: string;
   courseId: string;
+  isEnroll: boolean
 }
 
 interface ProfileProp {
@@ -97,6 +98,7 @@ interface CourseStoreProp {
   error: null | string;
   UserFetchedCourse: course[] | null;
   UserPurchasedCourse:  course[] | null;
+  enrollCourse: string | null;
   specificSection: null | {
     _id: string;
     title: string;
@@ -122,6 +124,7 @@ interface CourseStoreProp {
   AddLecture: (Data: FormData) => Promise<[]>;
   GetManageCourse: () => Promise<void>;
   GetPurchaseCoures: () => Promise<void>;
+  GetEnrolledCourse: () => Promise<void>;
 }
 
 interface AnalyticsStoreProp {
@@ -169,6 +172,7 @@ interface course {
   discount?: number;
   description: string;
   category?: string;
+  duration: number;
   level?: "Beginner" | "Intermediate" | "Advanced";
   language?: "Hindi" | "English" | "Hinglish";
   thumbnail?: string;
