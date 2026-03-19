@@ -216,7 +216,7 @@ export function InternalSection({
           className="flex items-center gap-3 cursor-pointer"
           onClick={() => setClicking(true)}
         >
-          <span className="font-semibold text-gray-200">Section {id + 1}:</span>
+          <span className="font-semibold text-gray-600">Section {id + 1}:</span>
 
           <input
             type="text"
@@ -224,7 +224,7 @@ export function InternalSection({
             onChange={(e) => setTitle(e.target.value)}
             className="flex-1 bg-transparent px-3 py-2 rounded-md
       border border-transparent
-      text-gray-100 placeholder-gray-500
+      text-gray-500 placeholder-gray-500
       focus:border-purple-500 focus:ring-2 focus:ring-purple-500
       focus:outline-none transition"
             placeholder="Section title"
@@ -235,7 +235,7 @@ export function InternalSection({
         {Clicking && (
           <div className="space-y-4 pl-1">
             {/* Description Label */}
-            <div className="text-sm font-medium text-gray-400">Description</div>
+            <div className="text-sm font-medium text-gray-600">Description</div>
 
             {/* Description Box */}
             <textarea
@@ -246,7 +246,7 @@ export function InternalSection({
               className="w-full bg-transparent
         px-4 py-3 rounded-lg
         border border-gray-700
-        text-gray-200 placeholder-gray-500
+        text-gray-600 placeholder-gray-500
         focus:ring-2 focus:ring-purple-500 focus:border-purple-500
         focus:outline-none resize-none transition"
             />
@@ -326,11 +326,11 @@ export function SectionForm({
       {/* 🔹 Modal Card */}
       <div className="w-full max-w-4xl bg-white border rounded-2xl shadow-xl p-8 space-y-6">
         {/* Heading */}
-        <h3 className="text-xl font-semibold text-gray-800">Create Section</h3>
+        <h3 className="text-xl font-semibold text-gray-600">Create Section</h3>
 
         {/* Title */}
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium text-gray-600">Title</label>
+          <label className="text-sm font-medium text-gray-800">Title</label>
 
           <input
             type="text"
@@ -343,7 +343,7 @@ export function SectionForm({
 
         {/* Description */}
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-medium text-gray-600">
+          <label className="text-sm font-medium text-gray-900">
             Description
           </label>
 
