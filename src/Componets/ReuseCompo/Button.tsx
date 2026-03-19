@@ -1,4 +1,4 @@
-import React from 'react'
+import type { ButtonProp } from "../../Types";
 
 function Button({ title, classname, type }: ButtonProp) {
   return (

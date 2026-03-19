@@ -37,7 +37,7 @@ function ProfileCard() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      const value = isValidatePassword();
+      isValidatePassword();
     }, 500);
 
     return () => clearTimeout(timer);

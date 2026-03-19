@@ -1,10 +1,8 @@
-import React from "react";
 import FooterImg from '../../Data/FooterLogo.png'
 import Facebook from '../../Data/FaceBokkLogo.jpeg'
 import Insta from '../../Data/InstaLogo.jpeg'
 import Linkedin from '../../Data/LinkedinLogo.jpeg'
 import Twitter from '../../Data/TwiiterLogo.jpeg'
-import { Link } from "react-router-dom";
 import Button from "../ReuseCompo/Button";
 
 function Footer() {

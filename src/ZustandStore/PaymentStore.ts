@@ -2,7 +2,7 @@ import { create } from "zustand";
 import type { PayStoreProp } from "../Types";
 import { api } from "../lib/api";
 
-export const PayStore = create<PayStoreProp>((set, get) => ({
+export const PayStore = create<PayStoreProp>((set) => ({
   isLoading: false,
   error: null,
 
@@ -36,7 +36,7 @@ export const PayStore = create<PayStoreProp>((set, get) => ({
   verifyPaymentWebhook : async() => {
     set({ isLoading: true, error: null });
     try {
-      const res = await api.post("/verifyPayment");
+     await api.post("/verifyPayment");
     } catch (error: any) {
       set({
         isLoading: false,

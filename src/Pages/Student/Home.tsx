@@ -6,8 +6,6 @@ import Testimonial from "../../Componets/Student/Testimonial";
 import Wrapper from "../../Componets/ReuseCompo/Wrapper";
 
 function Home() {
-  
-  
   return (
     <div className="mx-auto">
 

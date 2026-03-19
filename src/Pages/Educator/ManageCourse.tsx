@@ -1,6 +1,6 @@
-import { Plus, Edit2, Trash2, Search, BookOpen, X } from "lucide-react";
+import { Plus, Search, BookOpen, X } from "lucide-react";
 import { CourseStore } from "../../ZustandStore/CourseStore";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import CourseCard from "../../Componets/Student/CourseCard";
 
 export default function ManageCourses() {
@@ -12,13 +12,13 @@ export default function ManageCourses() {
     DeleteFunc(id)
   }
 
-  const ref = useRef(null);
+  // const ref = useRef(null);
   const filtered = CourseStore((s) => s.GetManageCourse);
   const filteredCourses = CourseStore((s) => s.UserFetchedCourse);
   const FetchSpecificcourse = CourseStore(s => s.FetchSpecificCourse)
   const Specificcourse = CourseStore(s => s.specificCourse);
   const UpdatingFunc = CourseStore(s => s.updateCourse)
-  const [list, setlsit] = useState(false);
+  const [list] = useState(false);
   const [title, settitle] = useState("");
   const [description, setdescription] = useState("");
   const [category, setcategory] = useState("");
@@ -46,8 +46,8 @@ export default function ManageCourses() {
     if (Thumbnail != null) {
       FormedData.append("thumbnail", Thumbnail);
     }
-    console.log("Formed data ", FormedData.get("thumbnail"));
-    console.log("data", list, title, description, level, status, Thumbnail, language );
+    // console.log("Formed data ", FormedData.get("thumbnail"));
+    // console.log("data", list, title, description, level, status, Thumbnail, language );
     
     {updatestate ? UpdatingFunc(updateCourseId, FormedData) : CreateCourse(FormedData)}
     
@@ -65,11 +65,11 @@ export default function ManageCourses() {
     if (Specificcourse) {
     settitle(Specificcourse.title);
     setdescription(Specificcourse.description);
-    setcategory(Specificcourse.category);
+    setcategory(Specificcourse.category!);
     setprice(Specificcourse.price);
-    setlevel(Specificcourse.level);
-    setlanguage(Specificcourse.language);
-    setstatus(Specificcourse.status);
+    setlevel(Specificcourse.level!);
+    setlanguage(Specificcourse.language!);
+    setstatus(Specificcourse.status!);
 
     // setupdatestate(true);
   }

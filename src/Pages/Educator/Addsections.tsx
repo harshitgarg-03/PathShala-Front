@@ -395,7 +395,9 @@ function Addsections() {
   }, []);
 
   const HnadelPulishedCourse = () => {
-    PulishedFunc(courseId!, {status : "Published"})
+    const formdata = new FormData;
+    formdata.append("status", "Published");
+    PulishedFunc(courseId!, formdata);
   }
   
   useEffect(() => {

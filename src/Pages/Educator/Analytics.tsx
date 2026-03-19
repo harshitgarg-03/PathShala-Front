@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import {
-  TrendingUp,
   Users,
   DollarSign,
   BookOpen,
@@ -10,8 +9,6 @@ import {
 import { CourseStore } from "../../ZustandStore/CourseStore";
 import type { course } from "../../Types";
 import { AnalyticsStore } from "../../ZustandStore/AnalyticsStore";
-// import { supabase } from '../lib/supabase';
-// import type { Course, Enrollment } from '../lib/types';
 
 export default function Analytics() {
   const CoursesAll = CourseStore((s) => s.UserFetchedCourse);
@@ -65,9 +62,9 @@ export default function Analytics() {
 
   const topPerformingCourse = courses.reduce((best, course) => {
     const courseEnrollments = enrollments.filter(
-      (e) => e.course_id === course.id,
+      (e) => e.course_id === course._id,
     );
-    const bestEnrollments = enrollments.filter((e) => e.course_id === best.id);
+    const bestEnrollments = enrollments.filter((e) => e.course_id === best._id);
     return courseEnrollments.length > bestEnrollments.length ? course : best;
   }, courses[0]);
 
@@ -139,7 +136,7 @@ export default function Analytics() {
           icon={BookOpen}
           label="Active Courses"
           value={courses
-            .filter((c) => c.status === "published")
+            .filter((c) => c.status === "Published")
             .length.toString()}
           change="+2"
           positive={true}
@@ -200,7 +197,7 @@ export default function Analytics() {
           <div className="space-y-4">
             {courses.slice(0, 5).map((course) => {
               const courseEnrollments = enrollments.filter(
-                (e) => e.course_id === course.id,
+                (e) => e.course_id === course._id,
               );
               const avgCourseRating =
                 courseEnrollments.filter((e) => e.rating).length > 0
@@ -211,7 +208,7 @@ export default function Analytics() {
                   : 0;
 
               return (
-                <div key={course.id} className="border-b pb-3 last:border-b-0">
+                <div key={course._id} className="border-b pb-3 last:border-b-0">
                   <div className="flex items-center justify-between mb-2">
                     <h3 className="font-medium text-gray-900 truncate">
                       {course.title}
@@ -232,7 +229,7 @@ export default function Analytics() {
                         Revenue:{" "}
                         <span className="font-medium">
                           $
-                          {(courseEnrollments.length * course.price).toFixed(2)}
+                          {(courseEnrollments.length * Number(course.price)).toFixed(2)}
                         </span>
                       </span>
                     </div>
@@ -245,7 +242,7 @@ export default function Analytics() {
       </div>
 
       {topPerformingCourse && (
-        <div className="bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg shadow p-6 text-white">
+        <div className="bg-linear-to-br from-blue-500 to-blue-700 rounded-lg shadow p-6 text-white">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-bold mb-2">Top Performing Course</h2>
@@ -255,7 +252,7 @@ export default function Analytics() {
               <p className="text-blue-100">
                 {
                   enrollments.filter(
-                    (e) => e.course_id === topPerformingCourse.id,
+                    (e) => e.course_id === topPerformingCourse._id,
                   ).length
                 }{" "}
                 enrollments

@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import search_icon from "../../Data/search_icon.svg";
 import Button from "../ReuseCompo/Button";
 import { useNavigate } from "react-router-dom";
-import type { SearchBarProp } from "../../Types";
-function SearchBar(inputSearch : SearchBarProp) {
+function SearchBar() {
   const navigate = useNavigate();
   const isCourseList = location.pathname.includes("/Course-List");
   const [input, setInput] = useState<string>("");
@@ -55,7 +54,7 @@ function SearchBar(inputSearch : SearchBarProp) {
       text-white rounded-full
       px-4 transition"
 
-      oncl
+      
         />
       </form>
     </div>

@@ -2,7 +2,6 @@ import { useLocation } from "react-router-dom";
 import type { lecture } from "../../Types";
 import { Play, Clock, CheckCircle } from "lucide-react";
 import { useEffect, useState } from "react";
-import voideorl from "C:/Users/harsh/Videos/2024-11-07 11-36-08.mp4"
 
 function Showlectures() {
   const location = useLocation();

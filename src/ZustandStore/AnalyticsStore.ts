@@ -2,7 +2,7 @@ import { create } from "zustand";
 import type { AnalyticsStoreProp } from "../Types";
 import { CourseStore } from "./CourseStore";
 
-export const AnalyticsStore = create<AnalyticsStoreProp>((set, get) => ({
+export const AnalyticsStore = create<AnalyticsStoreProp>((set) => ({
     TotalIncomefromCourses: 0,
     TotalStudents: 0, 
     AvgCoursePrice: 0,
@@ -14,8 +14,8 @@ export const AnalyticsStore = create<AnalyticsStoreProp>((set, get) => ({
         let AvgRating = 0;
         let TotalCourse = UserFetchedCourse?.length;
         const income = UserFetchedCourse?.reduce((sum: number, course) => { 
-            TotalStudentsCourse += course?.enrollStudents.length;    
-            AvgRating += course?.averageRating;                    
+            TotalStudentsCourse += course?.enrollStudents?.length!;    
+            AvgRating += course?.averageRating!;                    
             return (sum + (parseFloat(course?.price) | 0));
         }, 0)
 
