@@ -2,12 +2,9 @@ import { Route, Routes, useMatch } from "react-router-dom";
 import Home from "./Pages/Student/Home";
 import CoursesList from "./Pages/Student/CoursesList";
 import CourseDetails from "./Pages/Student/CourseDetails";
-import Player from "./Pages/Student/Player";
 import Loading from "./Componets/Student/Loading";
 import Educator from "./Pages/Educator/Educator";
 import DashBoard from "./Pages/Educator/DashBoard";
-import MyCourses from "./Pages/Educator/MyCourses";
-import StudentEnrolled from "./Pages/Educator/StudentEnrolled";
 import AddCourse from "./Pages/Educator/AddCourse";
 import NavBar from "./Componets/Student/NavBar";
 import Login from "./Pages/Student/Login";
@@ -73,15 +70,6 @@ function App() {
         />
 
         <Route
-          path="/Player/:courseId"
-          element={
-            <ProtectedRoute role="student">
-              <Player />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
           path="/Profile"
           element={
             <ProtectedRoute>
@@ -127,8 +115,6 @@ function App() {
         >
           <Route path="DashBoard" element={<DashBoard />} />
           <Route path="Profile" element={<EducatorProfile />} />
-          <Route path="MyCourses" element={<MyCourses />} />
-          <Route path="StudentsEnroll" element={<StudentEnrolled />} />
           <Route path="AddCourse" element={<AddCourse />} />
           <Route path="AddSection/:courseId" element={<Addsections />} />
           <Route path="Manage-Course" element={<ManageCourses />} />

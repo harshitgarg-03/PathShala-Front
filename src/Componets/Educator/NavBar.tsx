@@ -24,7 +24,7 @@ function NavBar() {
             className="relative group hover:text-blue-600 transition"
           >
             Exploring
-            <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+            <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
           </Link>
 
           <Button
