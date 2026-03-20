@@ -1,6 +1,6 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Wrapper from "../../Componets/ReuseCompo/Wrapper";
-import Fotter from "../../Data/FooterLogo.png";
+import Fotter from "../../../public/FooterLogo.png";
 import { Mail, Lock } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../ZustandStore/AuthStore";

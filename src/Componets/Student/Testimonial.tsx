@@ -1,11 +1,11 @@
 import type { smallCardProp } from "../../Types";
-import program from '../../Data/program.jpeg'
-import DataScience from '../../Data/DataScience.jpeg'
-import Business from '../../Data/Business.jpeg'
-import Marketing from '../../Data/Marketing.jpeg'
-import PersonalDevelopment from '../../Data/PersonalDevelopment.jpeg'
-import PaathShaala from '../../Data/PathShaala.jpeg'
-import Design from '../../Data/Design.jpeg'
+import program from '../../../public/program.jpeg'
+import DataScience from '../../../public/DataScience.jpeg'
+import Business from '../../../public/Business.jpeg'
+import Marketing from '../../../public/Marketing.jpeg'
+import PersonalDevelopment from '../../../public/PersonalDevelopment.jpeg'
+import PaathShaala from '../../../public/PathShaala.jpeg'
+import Design from '../../../public/Design.jpeg'
 
 
 export function Smallcards({ title, icon }: smallCardProp) {

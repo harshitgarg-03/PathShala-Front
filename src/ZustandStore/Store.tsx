@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import type { StoreProp } from "../Types";
-import { dummyCourses } from "../Data/assets";
+import { dummyCourses } from "../../public/assets";
 import { persist } from "zustand/middleware";
 
 export const useStore = create<StoreProp>()(

@@ -1,4 +1,4 @@
-import { assets } from "../../Data/assets.ts";
+import { assets } from "../../../public/assets.ts";
 import type { course } from "../../Types/index.js";
 import { useNavigate } from "react-router-dom";
 import { CourseStore } from "../../ZustandStore/CourseStore.ts";

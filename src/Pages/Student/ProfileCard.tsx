@@ -1,9 +1,9 @@
-import home from "../../Data/house.svg";
-import heart from "../../Data//heart-handshake.svg";
-import currencu from "../../Data/badge-dollar-sign (1).svg";
-import book from "../../Data/my_course_icon.svg";
-import plus from "../../Data/copy-plus.svg";
-import Logout from "../../Data/Logout.png";
+import home from "../../../public/house.svg";
+import heart from "../../../public/heart-handshake.svg";
+import currencu from "../../../public/badge-dollar-sign (1).svg";
+import book from "../../../public/my_course_icon.svg";
+import plus from "../../../public/copy-plus.svg";
+import Logout from "../../../public/Logout.png";
 import { useEffect, useState, type ChangeEvent } from "react";
 import { UseProfile } from "../../ZustandStore/ProfileStore";
 import { useLocation, useNavigate } from "react-router-dom";

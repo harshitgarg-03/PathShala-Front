@@ -1,14 +1,14 @@
-import setting from "../../Data/settings.svg";
-import dashboard from "../../Data/layout-dashboard.svg";
-import book from "../../Data/book-open.svg";
-import chart from "../../Data/chart-column.svg";
-import plusicon from "../../Data/copy-plus.svg";
+import setting from "../../../public/settings.svg";
+import dashboard from "../../../public/layout-dashboard.svg";
+import book from "../../../public/book-open.svg";
+import chart from "../../../public/chart-column.svg";
+import plusicon from "../../../public/copy-plus.svg";
 import { CourseStore } from "../../ZustandStore/CourseStore";
 import CourseCard from "../../Componets/Student/CourseCard";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef } from "react";
-import leftArrow from "../../Data/chevron-left.svg";
-import rightArrow from "../../Data/chevron-right.svg";
+import leftArrow from "../../../public/chevron-left.svg";
+import rightArrow from "../../../public/chevron-right.svg";
 function DashBoard() {
   const AllCourses = CourseStore((s) => s.UserFetchedCourse);
   const FetchAllCourse = CourseStore((s) => s.GetManageCourse);

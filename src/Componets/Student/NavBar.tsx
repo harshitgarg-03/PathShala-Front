@@ -1,8 +1,8 @@
-import logonew from "../../Data/Logo.png";
+import logonew from "../../../public/Logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../ZustandStore/AuthStore";
 import Button from "../ReuseCompo/Button";
-import usericon from '../../Data/user_icon.svg'
+import usericon from '../../../public/user_icon.svg'
 
 function NavBar() {
   const isCourlistpage = location.pathname.includes("/Course-List");

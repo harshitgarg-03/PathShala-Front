@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import search_icon from "../../Data/search_icon.svg";
+import search_icon from "../../../public/search_icon.svg";
 import Button from "../ReuseCompo/Button";
 import { useNavigate } from "react-router-dom";
 function SearchBar() {
