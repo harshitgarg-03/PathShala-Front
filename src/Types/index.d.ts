@@ -7,6 +7,27 @@ interface ButtonProp {
   type?: "submit" | "button";
 }
 
+export interface Enrollment {
+  _id?: string;
+
+  name?: string;
+  email?: string;
+  course_id?: string;
+  user_id?: string;
+
+  course?: course;   // populated data
+  user?: User;
+
+  enrolled_at?: string;
+  completed?: boolean;
+
+  rating?: number;
+  review?: string;
+
+  progress?: number;
+  updated_at?: string;
+}
+
 interface WrapperProp {
   children: ReactNode;
 }

@@ -61,7 +61,7 @@ function CoursesList() {
           </p>
         </div>
 
-        <SearchBar inputSearch={input} />
+        <SearchBar />
       </div>
 
       {/* 🔹 Active Filter Tag */}
