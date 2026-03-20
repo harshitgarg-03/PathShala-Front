@@ -3,7 +3,7 @@ import { useEffect, useMemo } from "react";
 import SearchBar from "../../Componets/Student/SearchBar";
 import Wrapper from "../../Componets/ReuseCompo/Wrapper";
 import { useNavigate, useParams } from "react-router-dom";
-import cross from "../../../public/cross_icon.svg";
+import cross from "../../assets/cross_icon.svg";
 import { StudentCourseStore } from "../../ZustandStore/StudentCourseStore";
 
 function CoursesList() {

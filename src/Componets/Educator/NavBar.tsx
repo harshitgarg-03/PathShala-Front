@@ -1,6 +1,6 @@
-import logonew from "../../../public/Logo.png";
+import logonew from "../../assets/Logo.png";
 import { Link, useNavigate } from "react-router-dom";
-import usericon from "../../../public/user_icon.svg";
+import usericon from "../../assets/user_icon.svg";
 import Button from "../ReuseCompo/Button";
 
 function NavBar() {

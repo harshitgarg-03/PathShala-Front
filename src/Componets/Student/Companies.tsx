@@ -1,8 +1,8 @@
-import microsoft from '../../../public/microsoft_logo.svg'
-import accenture from '../../../public/accenture_logo.svg'
-import adobe from '../../../public/adobe_logo.svg'
-import paypal from '../../../public/paypal_logo.svg'
-import walmart from '../../../public/walmart_logo.svg'
+import microsoft from '../../assets/microsoft_logo.svg'
+import accenture from '../../assets/accenture_logo.svg'
+import adobe from '../../assets/adobe_logo.svg'
+import paypal from '../../assets/paypal_logo.svg'
+import walmart from '../../assets/walmart_logo.svg'
 
 function Companies() {
   return (

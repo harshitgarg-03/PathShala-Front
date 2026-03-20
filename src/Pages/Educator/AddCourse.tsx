@@ -1,4 +1,4 @@
-import crossicon from "../../../public/cross_icon.svg";
+import crossicon from "../../assets/cross_icon.svg";
 import "../../../src/index.css";
 import { useNavigate } from "react-router-dom";
 import { CourseStore } from "../../ZustandStore/CourseStore";

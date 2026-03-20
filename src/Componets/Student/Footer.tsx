@@ -1,8 +1,8 @@
-import FooterImg from '../../../public/FooterLogo.png'
-import Facebook from '../../../public/FaceBokkLogo.jpeg'
-import Insta from '../../../public/InstaLogo.jpeg'
-import Linkedin from '../../../public/LinkedinLogo.jpeg'
-import Twitter from '../../../public/TwiiterLogo.jpeg'
+import FooterImg from '../../assets/FooterLogo.png'
+import Facebook from '../../assets/FaceBokkLogo.jpeg'
+import Insta from '../../assets/InstaLogo.jpeg'
+import Linkedin from '../../assets/LinkedinLogo.jpeg'
+import Twitter from '../../assets/TwiiterLogo.jpeg'
 import Button from "../ReuseCompo/Button";
 
 function Footer() {
