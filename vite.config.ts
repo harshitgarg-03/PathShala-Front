@@ -9,11 +9,11 @@ export default defineConfig({
   base: "./",
 
   server: {
-    host: true,
+    host: "0.0.0.0",
     port: 5173,
 
     // ✅ allow external hosts (Render / Vercel)
-    allowedHosts: "all",
+    allowedHosts: true,
 
     // 🔥 PROXY (avoid CORS in dev)
     proxy: {
