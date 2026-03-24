@@ -62,6 +62,8 @@ export const CourseStore = create<CourseStoreProp>((set, get) => ({
         specificCourse: res.data.data,
         isLoading: false,
       }));
+
+      return res.data.data;
     } catch (error: any) {
       set({
         isLoading: false,
