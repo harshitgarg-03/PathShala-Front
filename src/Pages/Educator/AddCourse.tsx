@@ -15,7 +15,7 @@ function AddCourse() {
   const [language, setlanguage] = useState<string>("Hindi");
   const [status, setstatus] = useState<string>("Hindi");
 
-  const handlecreate = () => {
+  const handlecreate = async () => {
     const formdata = new FormData();
     formdata.append("title", title);
     formdata.append("description", description);
@@ -25,8 +25,8 @@ function AddCourse() {
     formdata.append("category", category);
     formdata.append("language", language);
     formdata.append("status", status);
-    CreateCourse(formdata);
-    navigate("/Educator/AddSection")
+    const course = await CreateCourse(formdata);
+    navigate(`/Educator/AddSection/${course._id}`)
   };
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4">
