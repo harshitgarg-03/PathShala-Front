@@ -132,7 +132,7 @@ interface CourseStoreProp {
   FetchSpecificSection: (id: string) => void;
   FetchAllCourse: () => Promise<void>;
   FetchSpecificCourse: (id: string) => void;
-  CreateCourse: (formdata: FormData) => Promise<void>;
+  CreateCourse: (formdata: FormData) => Promise<course>;
   AddSection: (Data: {
     title: string;
     description: string;
