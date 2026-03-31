@@ -12,12 +12,11 @@ import rightArrow from "../../assets/chevron-right.svg";
 function DashBoard() {
   const AllCourses = CourseStore((s) => s.UserFetchedCourse);
   const FetchAllCourse = CourseStore((s) => s.GetManageCourse);
+
   useEffect(() => {
     FetchAllCourse();
   }, []);
-  console.log("all courses", AllCourses);
-  
-  
+   
   const HandlecreateCourse = () => {
     navigate("/Educator/AddCourse");
   };
@@ -134,6 +133,7 @@ function DashBoard() {
                 >
                   {AllCourses.map((item) => (
                     <div
+                      key={item._id}
                       className="min-w-75 shrink-0"
                       onClick={() => HandlecreateSection(item._id)}
                     >
