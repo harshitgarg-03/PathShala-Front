@@ -165,13 +165,11 @@ export const CourseStore = create<CourseStoreProp>((set, get) => ({
       const FetchCourse = get().FetchAllCourse;
       await FetchCourse();
       const Course = get().courses;
-      console.log("mabagr courses are ", Course);
 
       if (!Course) return;
       const instructorCourses = Course?.filter(
         (item) => item.instructor?._id === user._id,
       );
-      console.log("all courses state ", instructorCourses);
       
       set({ UserFetchedCourse: instructorCourses, isLoading: false });
     } catch (error: any) {
