@@ -32,7 +32,7 @@ function Login() {
   useEffect(() => {
     if (isAuthenticate && user) {
       if (user.role === "instructor") {
-        navigate("/educator/dashboard");
+        navigate("/Educator/DashBoard");
       } else {
         navigate("/");
       }

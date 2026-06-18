@@ -11,25 +11,26 @@ function SignUp() {
   const [name, setname] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
-
+  const [role, setrole] = useState("student");
+ 
   const Register = useAuth((s) => s.Register);
   const isLoading = useAuth((s) => s.isLoading);
   const isAuthenticate = useAuth((s) => s.isAuthenticate);
   const error = useAuth((s) => s.error);
   const handleGoogle = useAuth((s) => s.handleGoogleLogin);
-
+ 
   // 🔹 Handle Signup
   const handlesignup = async (e?: React.FormEvent) => {
     e?.preventDefault();
-
+ 
     if (!name || !email || !password) return;
-
-    const res = await Register({ name, email, password });
+ 
+    const res = await Register({ name, email, password, role });
     if(res){
       navigate("/login")
     }
   };
-
+ 
   // 🔹 Redirect if already logged in
   useEffect(() => {
     if (isAuthenticate) {
@@ -37,7 +38,7 @@ function SignUp() {
       navigate("/");
     }
   }, [isAuthenticate, navigate]);
-
+ 
   return (
     <Wrapper>
       <form
@@ -47,7 +48,7 @@ function SignUp() {
         py-10 px-8 flex flex-col justify-center items-center mx-auto space-y-6"
       >
         <img src={Fotter} alt="logo" className="h-20" />
-
+ 
         <div className="text-center space-y-1">
           <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">
             Create Your Account
@@ -56,12 +57,12 @@ function SignUp() {
             Sign up to start learning from the best instructors
           </p>
         </div>
-
+ 
         {/* 🔹 Error Message */}
         {error && (
           <p className="text-red-500 text-sm text-center">{error}</p>
         )}
-
+ 
         <div className="w-full space-y-4">
           {/* Name */}
           <div className="relative">
@@ -75,7 +76,7 @@ function SignUp() {
               required
             />
           </div>
-
+ 
           {/* Email */}
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
@@ -88,7 +89,7 @@ function SignUp() {
               required
             />
           </div>
-
+ 
           {/* Password */}
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
@@ -99,8 +100,24 @@ function SignUp() {
               value={password}
               onChange={(e) => setpassword(e.target.value)}
               required
-              minLength={6}
+              minLength={8}
             />
+            <p className="text-[10px] text-gray-500 mt-1 pl-1">
+              At least 8 chars, 1 uppercase, 1 lowercase, 1 number, 1 special char.
+            </p>
+          </div>
+
+          {/* Role */}
+          <div className="relative">
+            <select
+              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-700"
+              value={role}
+              onChange={(e) => setrole(e.target.value)}
+              required
+            >
+              <option value="student">Join as a Student</option>
+              <option value="instructor">Join as an Instructor (Educator)</option>
+            </select>
           </div>
         </div>
 

@@ -1,6 +1,7 @@
 import logonew from "../../assets/Logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../ZustandStore/AuthStore";
+import { UseProfile } from "../../ZustandStore/ProfileStore";
 import Button from "../ReuseCompo/Button";
 import usericon from '../../assets/user_icon.svg'
 
@@ -8,13 +9,23 @@ function NavBar() {
   const isCourlistpage = location.pathname.includes("/Course-List");
   const navigate = useNavigate();
   const isAuthenticate = useAuth((s) => s.isAuthenticate);
-  // const logoutFunc = useAuth(s => s.Logout)
-  // console.log(isAuthenticate);
+  const user = useAuth((s) => s.user);
+  const updateProfile = UseProfile((s) => s.UpdateProfile);
 
-  // const handleLogout = () => {
-  //   logoutFunc()
-  //   navigate("/")
-  // }
+  const handleBecomeEducator = async () => {
+    if (user?.role === "student") {
+      const confirmed = window.confirm("Are you sure you want to become an Educator/Instructor?");
+      if (confirmed) {
+        const formData = new FormData();
+        formData.append("role", "instructor");
+        await updateProfile(formData);
+      } else {
+        return;
+      }
+    }
+    navigate("/Educator/DashBoard");
+  };
+
   return (
     <div
       className={`flex h-16 md:h-20 mx-auto px-3 sm:px-4 md:px-6 lg:px-8 
@@ -32,8 +43,8 @@ function NavBar() {
           <div
             className={`hidden sm:flex flex-row font-medium font-sans items-center justify-center`}
           > 
-          <div onClick={() => navigate("/Educator/DashBoard")} >
-            <Button  title="Become Educator" classname="px-4 mr-2" />
+          <div onClick={handleBecomeEducator} >
+            <Button  title={user?.role === "instructor" ? "Educator Dashboard" : "Become Educator"} classname="px-4 mr-2" />
 
           </div>
             <span className="text-gray-400 mx-1 md:mx-2">|</span>

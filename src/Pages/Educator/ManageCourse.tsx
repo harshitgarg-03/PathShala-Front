@@ -278,9 +278,9 @@ export default function ManageCourses() {
                     onChange={(e) => setstatus(e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
-                    <option value="draft">Draft</option>
-                    <option value="published">Published</option>
-                    <option value="archived">Archived</option>
+                    <option value="Draft">Draft</option>
+                    <option value="Published">Published</option>
+                    <option value="Archived">Archived</option>
                   </select>
                 </div>
 
@@ -293,9 +293,9 @@ export default function ManageCourses() {
                     onChange={(e) => setlanguage(e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
-                    <option value="draft">Hindi</option>
-                    <option value="published">Hinglish</option>
-                    <option value="archived">English</option>
+                    <option value="Hindi">Hindi</option>
+                    <option value="Hinglish">Hinglish</option>
+                    <option value="English">English</option>
                   </select>
                 </div>
 
@@ -308,9 +308,9 @@ export default function ManageCourses() {
                     onChange={(e) => setlevel(e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
-                    <option value="draft">Beginner</option>
-                    <option value="published">Intermediate</option>
-                    <option value="archived">Advance</option>
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
                   </select>
                 </div>
 

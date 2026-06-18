@@ -25,6 +25,7 @@ import Enrollement from "./Pages/Student/Enrolled";
 import Showlectures from "./Pages/Student/showlectures";
 import { StudentCourseStore } from "./ZustandStore/StudentCourseStore";
 
+
 function App() {
   const isEducatorPage = useMatch("/Educator/*");
 
@@ -108,7 +109,7 @@ function App() {
         <Route
           path="/Educator"
           element={
-            <ProtectedRoute role="student">
+            <ProtectedRoute role="instructor">
               <Educator />
             </ProtectedRoute>
           }

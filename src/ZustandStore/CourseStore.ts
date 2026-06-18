@@ -34,7 +34,10 @@ export const CourseStore = create<CourseStoreProp>((set, get) => ({
     const AllCourses =
       get().courses || StudentCourseStore.getState().publishedCourses;
 
-    if (!AllCourses) return;
+    if (!AllCourses) {
+      set({ isLoading: false });
+      return;
+    }
 
     const course = AllCourses.find((item) => item._id === id);
     set({ specificCourse: course, specificCourseId: id, isLoading: false });

@@ -8,12 +8,12 @@ function AddCourse() {
   const CreateCourse = CourseStore((s) => s.CreateCourse);
   const [title, settitle] = useState<string>("");
   const [description, setdescription] = useState<string>("");
-  const [price, setprice] = useState<number>(0);
+  const [price, setprice] = useState<number>(1);
   const [level, setlevel] = useState<string>("Beginner");
   const [thumbnail, setthumbnail] = useState<File | null>(null);
   const [category, setcategory] = useState<string>("");
   const [language, setlanguage] = useState<string>("Hindi");
-  const [status, setstatus] = useState<string>("Hindi");
+  const [status, setstatus] = useState<string>("Draft");
 
   const handlecreate = async () => {
     const formdata = new FormData();
@@ -26,6 +26,8 @@ function AddCourse() {
     formdata.append("language", language);
     formdata.append("status", status);
     const course = await CreateCourse(formdata);
+    console.log("course", course);
+    
     navigate(`/Educator/AddSection/${course._id}`)
   };
   return (
@@ -93,6 +95,7 @@ function AddCourse() {
                   type="number"
                   placeholder="49.99"
                   className="w-full px-4 py-3 focus:outline-none"
+                  min={1}
                   value={price}
                   onChange={(e) => setprice(Number(e.target.value))}
                 />
@@ -174,7 +177,7 @@ function AddCourse() {
             >
               <option>Draft</option>
               <option>Published</option>
-              <option>Archieved</option>
+              <option>Archived</option>
             </select>
           </div>
 

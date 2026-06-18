@@ -7,7 +7,8 @@ import { StudentCourseStore } from "../../ZustandStore/StudentCourseStore";
 function CouseSection() {
   const Fetchcourses = StudentCourseStore((s) => s.getPublishedCourse);
   const dummycourses = StudentCourseStore((s) => s.publishedCourses);
-   
+  console.log("dummy course :: ", dummycourses);
+  
   useEffect(() => {
     const fetchfata = async () => {
       await Fetchcourses();
@@ -29,7 +30,7 @@ function CouseSection() {
         </p>
       </div>
       <div className="text-right w-full mt-8">
-        {dummycourses && (
+        {(dummycourses?.length!>0) && (
           <Link
             to="/Course-List"
             className="text-blue-700 font-normal text-lg hover:text-blue-400 transition-colors duration-300"
