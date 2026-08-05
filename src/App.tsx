@@ -109,7 +109,7 @@ function App() {
         <Route
           path="/Educator"
           element={
-            <ProtectedRoute role="instructor">
+            <ProtectedRoute role="educator">
               <Educator />
             </ProtectedRoute>
           }
