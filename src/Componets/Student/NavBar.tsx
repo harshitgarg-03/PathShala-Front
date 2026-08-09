@@ -13,6 +13,11 @@ function NavBar() {
   const updateProfile = UseProfile((s) => s.UpdateProfile);
 
   const handleBecomeEducator = async () => {
+    if (!isAuthenticate) {
+      navigate("/login");
+      return;
+    }
+
     if (user?.role === "student") {
       const confirmed = window.confirm("Are you sure you want to become an Educator/Instructor?");
       if (confirmed) {
@@ -44,8 +49,7 @@ function NavBar() {
             className={`hidden sm:flex flex-row font-medium font-sans items-center justify-center`}
           > 
           <div onClick={handleBecomeEducator} >
-            <Button  title={user?.role === "instructor" ? "Educator Dashboard" : "Become Educator"} classname="px-4 mr-2" />
-
+            <Button  title={user?.role === "instructor" ? "Instructor Dashboard" : "Become Instructor"} classname="px-4 mr-2" />
           </div>
             <span className="text-gray-400 mx-1 md:mx-2">|</span>
             <Link

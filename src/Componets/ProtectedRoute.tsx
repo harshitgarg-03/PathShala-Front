@@ -3,7 +3,7 @@ import { useAuth } from "../ZustandStore/AuthStore";
 
 type Props = {
   children: React.ReactNode;
-  role?: "student" | "educator" | "admin" ;
+  role?: "student" | "instructor" | "admin";
 };
 
 function ProtectedRoute({ children, role }: Props) {
@@ -26,8 +26,18 @@ function ProtectedRoute({ children, role }: Props) {
   }
 
   // 🔹 Role-based protection
-  if (role && user?.role !== role) {
-    return <Navigate to="/" replace />;
+  if (role) {
+    if (role === "instructor") {
+      if (user?.role !== "instructor") {
+        return <Navigate to="/" replace />;
+      }
+    } else if (role === "student") {
+      if (!user) {
+        return <Navigate to="/login" replace />;
+      }
+    } else if (user?.role !== role) {
+      return <Navigate to="/" replace />;
+    }
   }
 
   return <>{children}</>;

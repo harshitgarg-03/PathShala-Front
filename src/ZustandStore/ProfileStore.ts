@@ -7,6 +7,7 @@ export const UseProfile = create<ProfileProp>((set) => ({
   isLoading: false,
   error: null,
   isEducator: false,
+  isInstructor: false,
 
   UpdateProfile: async (data) => {
     set({ isLoading: true, error: null });
@@ -54,6 +55,7 @@ export const UseProfile = create<ProfileProp>((set) => ({
       isLoading: false,
       error: null,
       isEducator: false,
+      isInstructor: false,
     });
   },
 }));

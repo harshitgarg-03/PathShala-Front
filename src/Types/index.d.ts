@@ -50,7 +50,8 @@ interface PaymentCardProps {
 }
 
 interface ProfileProp {
-  isEducator: boolean;
+  isEducator?: boolean;
+  isInstructor?: boolean;
   isLoading: boolean;
   error: null | string;
   UpdateProfile: (data: FormData) => Promise<void>

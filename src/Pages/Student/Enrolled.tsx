@@ -36,19 +36,19 @@ function Enrollement() {
     // FetchAllCourses();
   }, [GetPurchaseCourse]);
 
-  const totalDuration = () => {
-    specialCourse?.sections?.map((item) =>
-      item.lectures?.reduce((acc, sum) => {
-        const value = (Number(acc) + Number(sum.duration)) * 0.000277778;
-        setDuration(Number(value.toFixed(2)));
-        return value;
-      }, 0),
-    );
-    return Duration;
-  };
-
   useEffect(() => {
-    totalDuration();
+    if (!specialCourse?.sections) {
+      setDuration(0);
+      return;
+    }
+    let totalSec = 0;
+    specialCourse.sections.forEach((sec) => {
+      sec.lectures?.forEach((lec) => {
+        if (lec.duration) totalSec += Number(lec.duration);
+      });
+    });
+    const hours = (totalSec * 0.000277778).toFixed(2);
+    setDuration(Number(hours));
   }, [specialCourse]);
 
   console.log("purchased coreses are", PurchaseCourse);
@@ -56,15 +56,20 @@ function Enrollement() {
     console.log("special coreses are", specialCourse);
   }, [specialCourse]);
 
-  // const PurchaseCourseIds = new Set(PurchaseCourse);
-  // const allPurchasedCoursewithContent = AllCourses?.filter((course) =>
-  //   PurchaseCourseIds.has(course._id),
-  // );
-
   return (
     <div>
-      {PurchaseCourse?.length === 0 ? (
-        <div>First have to purchase course</div>
+      {!PurchaseCourse || PurchaseCourse.length === 0 ? (
+        <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4 px-4 text-center">
+          <p className="text-xl font-semibold text-gray-700">
+            You have not enrolled in any courses yet.
+          </p>
+          <button
+            onClick={() => navigate("/Course-List")}
+            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition cursor-pointer"
+          >
+            Explore Courses
+          </button>
+        </div>
       ) : (
         <div className="min-h-screen bg-linear-to-br from-slate-50 via-blue-50 to-sky-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
